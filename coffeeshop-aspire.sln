@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "barista-api", "barista-api\barista-api.csproj", "{1E1B0C85-DB1F-485E-8B5A-CE03E9977029}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "service-defaults", "service-defaults\service-defaults.csproj", "{5E32B73F-45E0-4E11-BBCD-397249DF3E82}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "product-api", "product-api\product-api.csproj", "{605A641D-F5E3-4B6F-9092-591F0A7DEE9D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "app-host", "app-host\app-host.csproj", "{EB61218A-CF80-4389-9C6A-D6AA5C205E95}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kitchen-api", "kitchen-api\kitchen-api.csproj", "{16CC8BE1-3E21-46FB-813D-CF37C7079EC4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "counter-api", "counter-api\counter-api.csproj", "{6A163558-FB94-449A-817A-8D8FD08D5E22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E1B0C85-DB1F-485E-8B5A-CE03E9977029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E1B0C85-DB1F-485E-8B5A-CE03E9977029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E1B0C85-DB1F-485E-8B5A-CE03E9977029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E1B0C85-DB1F-485E-8B5A-CE03E9977029}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E32B73F-45E0-4E11-BBCD-397249DF3E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E32B73F-45E0-4E11-BBCD-397249DF3E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E32B73F-45E0-4E11-BBCD-397249DF3E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E32B73F-45E0-4E11-BBCD-397249DF3E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{605A641D-F5E3-4B6F-9092-591F0A7DEE9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{605A641D-F5E3-4B6F-9092-591F0A7DEE9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{605A641D-F5E3-4B6F-9092-591F0A7DEE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{605A641D-F5E3-4B6F-9092-591F0A7DEE9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB61218A-CF80-4389-9C6A-D6AA5C205E95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB61218A-CF80-4389-9C6A-D6AA5C205E95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB61218A-CF80-4389-9C6A-D6AA5C205E95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB61218A-CF80-4389-9C6A-D6AA5C205E95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16CC8BE1-3E21-46FB-813D-CF37C7079EC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16CC8BE1-3E21-46FB-813D-CF37C7079EC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16CC8BE1-3E21-46FB-813D-CF37C7079EC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16CC8BE1-3E21-46FB-813D-CF37C7079EC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A163558-FB94-449A-817A-8D8FD08D5E22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A163558-FB94-449A-817A-8D8FD08D5E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A163558-FB94-449A-817A-8D8FD08D5E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A163558-FB94-449A-817A-8D8FD08D5E22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3003BB3-31B7-4AFA-80BD-E3FB6FBC2CAD}
+	EndGlobalSection
+EndGlobal

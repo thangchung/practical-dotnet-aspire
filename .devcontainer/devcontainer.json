@@ -1,0 +1,62 @@
+{
+	"name": "CoffeeShop on .NET Aspire",
+	"dockerFile": "Dockerfile",
+	"workspaceFolder": "/workspaces/coffeeshop-aspire",
+	"onCreateCommand": "bash ./.devcontainer/on-create.sh",
+	"postCreateCommand": "bash ./.devcontainer/post-create.sh",
+	"runArgs": [
+		"--privileged",
+		"--init"
+	],
+	"mounts": [
+		"source=${localWorkspaceFolder},target=/home/thangchung/.aspnet/DataProtection-Keys,type=bind,consistency=cached"
+	],
+	// Features to add to the dev container. More info: https://containers.dev/features
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		"ghcr.io/devcontainers/features/azure-cli:1": {},
+		"ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
+		"ghcr.io/rio/features/k3d:1": {},
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"configureZshAsDefaultShell": true
+		}
+	},
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"mutantdino.resourcemonitor",
+				"humao.rest-client",
+				"ms-vscode.makefile-tools",
+				"davidanson.vscode-markdownlint",
+				"cweijan.vscode-database-client2",
+				"bierner.markdown-mermaid",
+				"ms-kubernetes-tools.vscode-kubernetes-tools",
+				"ms-dotnettools.csdevkit",
+				"ms-azuretools.vscode-docker",
+				"dunn.redis",
+				"GitHub.copilot"
+			]
+		}
+	},
+	"remoteEnv": {
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+	},
+	// Use 'portsAttributes' to set default properties for specific forwarded ports.
+	// More info: https://containers.dev/implementors/json_reference/#port-attributes
+	"portsAttributes": {
+		"8081": {
+			"label": "k3s",
+			"onAutoForward": "silent"
+		},
+		"5019": {
+			"label": "aspire",
+			"onAutoForward": "silent"
+		}
+	},
+	"otherPortsAttributes": {
+		"onAutoForward": "ignore"
+	}
+}

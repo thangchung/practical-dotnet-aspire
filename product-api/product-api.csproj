@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>ProductApi</RootNamespace>
+		<ContainerRepository>product-api</ContainerRepository>
+		<ContainerImageTag>latest</ContainerImageTag>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
+		<PackageReference Include="Microsoft.OpenApi"/>
+		<PackageReference Include="Swashbuckle.AspNetCore"/>
+		<PackageReference Include="MediatR"/>
+		<PackageReference Include="FluentValidation.AspNetCore"/>
+  	</ItemGroup>
+
+	<ItemGroup>
+    	<ProjectReference Include="..\service-defaults\service-defaults.csproj" />
+  	</ItemGroup>
+
+</Project>

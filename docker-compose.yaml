@@ -1,0 +1,72 @@
+version: "3.4"
+
+x-common-variables: &common-variables
+  ASPNETCORE_ENVIRONMENT: Development
+
+services:
+  product-api:
+    image: ${DOCKER_REGISTRY:-ghcr.io/thangchung/coffeeshop-aspire}/product-api:${IMAGE_TAG:-latest}
+    container_name: product-api
+    environment:
+      <<: *common-variables
+      ASPNETCORE_URLS: http://+:5001
+      ApplicationName: "product-api"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://zipkin:9411/api/v2/spans
+    ports:
+      - "5001:5001"
+    pull_policy: if_not_present
+    restart: always
+    networks:
+      - coffeeshop-network
+
+  counter-api:
+    image: ${DOCKER_REGISTRY:-ghcr.io/thangchung/coffeeshop-aspire}/counter-api:${IMAGE_TAG:-latest}
+    container_name: counter-api
+    environment:
+      <<: *common-variables
+      ASPNETCORE_URLS: http://+:5002
+      ApplicationName: "counter-api"
+      ProductCatalogAppDaprName: product-api
+      DAPR_GRPC_PORT: 4001
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://zipkin:9411/api/v2/spans
+    ports:
+      - "5002:5002"
+    depends_on:
+      - product-api
+    pull_policy: if_not_present
+    restart: always
+    networks:
+      - coffeeshop-network
+
+  barista-api:
+    image: ${DOCKER_REGISTRY:-ghcr.io/thangchung/coffeeshop-aspire}/barista-api:${IMAGE_TAG:-latest}
+    container_name: barista-api
+    environment:
+      <<: *common-variables
+      ASPNETCORE_URLS: http://+:5003
+      ApplicationName: "barista-api"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://zipkin:9411/api/v2/spans
+    ports:
+      - "5003:5003"
+    pull_policy: if_not_present
+    restart: always
+    networks:
+      - coffeeshop-network
+
+  kitchen-api:
+    image: ${DOCKER_REGISTRY:-ghcr.io/thangchung/coffeeshop-aspire}/kitchen-api:${IMAGE_TAG:-latest}
+    container_name: kitchen-api
+    environment:
+      <<: *common-variables
+      ASPNETCORE_URLS: http://+:5004
+      ApplicationName: "kitchen-api"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://zipkin:9411/api/v2/spans
+    ports:
+      - "5004:5004"
+    pull_policy: if_not_present
+    restart: always
+    networks:
+      - coffeeshop-network
+
+networks:
+  coffeeshop-network:
