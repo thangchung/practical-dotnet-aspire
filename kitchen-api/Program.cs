@@ -1,7 +1,6 @@
-using System.Text.Json;
 using FluentValidation;
-
-using KitchenApi.UseCases;
+using KitchenApi.IntegrationEvents.EventHandlers;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,13 +15,18 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// todo
-// builder.Services.AddDaprClient();
-// builder.Services.AddSingleton(new JsonSerializerOptions()
-// {
-//     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-//     PropertyNameCaseInsensitive = true,
-// });
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<KitchenOrderedConsumer>(typeof(KitchenOrderedConsumerDefinition));
+
+    x.SetKebabCaseEndpointNameFormatter();
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration.GetValue<string>("RabbitMqUrl")!);
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 var app = builder.Build();
 
@@ -40,6 +44,6 @@ app.MapDefaultEndpoints();
 
 app.Map("/", () => Results.Redirect("/swagger"));
 
-_ = app.MapOrderUpApiRoutes();
+// _ = app.MapOrderUpApiRoutes();
 
 app.Run();

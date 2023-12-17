@@ -13,6 +13,8 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 		<PackageReference Include="MediatR" />
 		<PackageReference Include="FluentValidation.AspNetCore" />
+		<PackageReference Include="MassTransit" />
+        <PackageReference Include="MassTransit.RabbitMQ" />
 	</ItemGroup>
 
 	<ItemGroup>

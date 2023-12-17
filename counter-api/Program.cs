@@ -1,28 +1,15 @@
-using System.Text.Json;
 using FluentValidation;
-
-using CounterApi.Domain;
-using CounterApi.Infrastructure.Gateways;
 using CounterApi.UseCases;
-using MediatR;
-using CounterApi.Domain.Messages;
+using MassTransit;
+using CounterApi.IntegrationEvents.EventHandlers;
+using CounterApi.Infrastructure.Gateways;
+using CounterApi.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
 builder.Services.AddProblemDetails();
-
-// todo
-// builder.Services.AddDaprWorkflowClient();
-// builder.Services.AddDaprWorkflow(options =>
-// {
-//     options.RegisterWorkflow<PlaceOrderWorkflow>();
-
-//     options.RegisterActivity<NotifyActivity>();
-//     options.RegisterActivity<AddOrderActivity>();
-//     options.RegisterActivity<UpdateOrderActivity>();
-// });
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
@@ -31,24 +18,26 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// todo
-// builder.Services.AddDaprClient();
-// builder.Services.AddSingleton(new JsonSerializerOptions()
-// {
-//     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-//     PropertyNameCaseInsensitive = true,
-// });
+builder.Services.AddScoped<IItemGateway, ItemHttpGateway>();
 
-// todo
-// builder.Services.AddScoped<IItemGateway, ItemDaprGateway>();
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<BaristaOrderUpdatedConsumer>(typeof(BaristaOrderUpdatedConsumerDefinition));
+    x.AddConsumer<KitchenOrderUpdatedConsumer>(typeof(KitchenOrderUpdatedConsumerDefinition));
 
-// https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Program.cs#L31
-// if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DAPR_GRPC_PORT")))
-// {
-//     Environment.SetEnvironmentVariable("DAPR_GRPC_PORT", "50001");
-// }
+    x.SetKebabCaseEndpointNameFormatter();
 
-// builder.AddOpenTelemetry();
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        // Console.WriteLine($"RabbitMQ Conn: {builder.Configuration.GetConnectionString("rabbitmq")}");
+        // cfg.Host(new Uri(builder.Configuration.GetConnectionString("rabbitmq")!), h => {
+        //     h.Username("guest");
+        //     h.Password("guest");
+        // });
+        cfg.Host(builder.Configuration.GetValue<string>("RabbitMqUrl")!);
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 var app = builder.Build();
 
@@ -68,7 +57,7 @@ app.Map("/", () => Results.Redirect("/swagger"));
 
 // todo
 _ = app.MapOrderInApiRoutes()
-    .MapOrderUpApiRoutes()
+    // .MapOrderUpApiRoutes()
     .MapOrderFulfillmentApiRoutes();
 
 app.Run();

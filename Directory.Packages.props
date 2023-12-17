@@ -14,6 +14,8 @@
         <PackageVersion Include="Yarp.ReverseProxy" Version="2.1.0"/>
         <PackageVersion Include="MediatR" Version="12.2.0"/>
         <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
+        <PackageVersion Include="MassTransit" Version="8.1.2" />
+        <PackageVersion Include="MassTransit.RabbitMQ" Version="8.1.2" />
     </ItemGroup>
 
     <ItemGroup>

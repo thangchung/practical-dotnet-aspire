@@ -1,14 +1,14 @@
 using CounterApi.Domain.Dtos;
 
-namespace CounterApi.Domain.Messages;
+namespace CoffeeShop.MessageContracts;
 
-public record BaristaOrderPlaced
+public record BaristaOrderUpdated
 {
     public Guid OrderId { get; init; }
     public List<OrderItemLineDto> ItemLines { get; init; } = new();
 }
 
-public record KitchenOrderPlaced
+public record KitchenOrderUpdated
 {
     public Guid OrderId { get; init; }
     public List<OrderItemLineDto> ItemLines { get; init; } = new();

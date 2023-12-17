@@ -1,0 +1,1 @@
+CRITICAL: Don't change namespace of these messages, if not MassTransit will not be able to comsume the message
