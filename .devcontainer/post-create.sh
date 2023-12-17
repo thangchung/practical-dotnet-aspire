@@ -11,3 +11,6 @@ done
 
 ## dotnet
 dotnet restore
+
+## docker-compose
+docker compose -f ./.devcontainer/docker-compose.yaml up -d

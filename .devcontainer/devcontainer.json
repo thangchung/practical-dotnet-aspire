@@ -54,6 +54,10 @@
 		"5019": {
 			"label": "aspire",
 			"onAutoForward": "silent"
+		},
+		"15672": {
+			"label": "rabbitmq",
+			"onAutoForward": "silent"
 		}
 	},
 	"otherPortsAttributes": {
