@@ -18,6 +18,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// builder.Services.AddHttpClient<ProductHttpClient>(client => 
+//     client.BaseAddress = new(builder.Configuration.GetValue<string>("ProductApiUrl")!));
 builder.Services.AddScoped<IItemGateway, ItemHttpGateway>();
 
 builder.Services.AddMassTransit(x =>
@@ -34,7 +36,8 @@ builder.Services.AddMassTransit(x =>
         //     h.Username("guest");
         //     h.Password("guest");
         // });
-        cfg.Host(builder.Configuration.GetValue<string>("RabbitMqUrl")!);
+        
+        cfg.Host(builder.Configuration.GetConnectionString("rabbitmq")!);
         cfg.ConfigureEndpoints(context);
     });
 });

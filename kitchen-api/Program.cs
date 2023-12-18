@@ -23,7 +23,9 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(builder.Configuration.GetValue<string>("RabbitMqUrl")!);
+        // cfg.Host(builder.Configuration.GetValue<string>("RabbitMqUrl")!);
+
+        cfg.Host(builder.Configuration.GetConnectionString("rabbitmq")!);
         cfg.ConfigureEndpoints(context);
     });
 });

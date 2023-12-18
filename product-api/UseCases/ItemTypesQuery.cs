@@ -13,9 +13,9 @@ internal static class ItemTypesQueryRouter
         builder.MapGet("/v1/api/item-types",
             async (ISender sender) =>
                 await sender.Send(new ItemTypesQuery()));
-        builder.MapGet("/v1-get-item-types",
-            async (ISender sender) =>
-                await sender.Send(new ItemTypesQuery()));
+        // builder.MapGet("/v1-get-item-types",
+        //     async (ISender sender) =>
+        //         await sender.Send(new ItemTypesQuery()));
         return builder;
     }
 }

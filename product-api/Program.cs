@@ -17,16 +17,17 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseExceptionHandler();
-
-if (app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler();
+}
+else
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.MapDefaultEndpoints();
-
 app.Map("/", () => Results.Redirect("/swagger"));
 
 _ = app.MapItemTypesQueryApiRoutes()
