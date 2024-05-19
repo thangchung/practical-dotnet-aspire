@@ -13,18 +13,12 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Pr
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler();
-}
-else
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+	app.UseExceptionHandler();
 }
 
 app.MapDefaultEndpoints();

@@ -1,10 +1,10 @@
-using CounterApi.Domain.SharedKernel;
+using CoffeeShop.Shared.Domain;
 
 namespace CounterApi.Domain.DomainEvents;
 
-public class OrderUp(Guid itemLineId) : IDomainEvent
+public class OrderUp(Guid itemLineId) : EventBase
 {
-    public Guid ItemLineId => itemLineId;
+	public Guid ItemLineId => itemLineId;
 }
 
 public class BaristaOrderUp(Guid itemLineId) : OrderUp(itemLineId)

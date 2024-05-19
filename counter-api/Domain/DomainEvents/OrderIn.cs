@@ -1,8 +1,22 @@
-using CounterApi.Domain.SharedKernel;
+using CoffeeShop.Shared.Domain;
+
+using CounterApi.Domain.Dtos;
 
 namespace CounterApi.Domain.DomainEvents;
 
-public class OrderIn(Guid orderId, Guid itemLineId, ItemType itemType) : IDomainEvent
+public class BaristaOrdersPlacedDomainEvent : EventBase
+{
+	public Guid? OrderId { get; set; }
+	public List<OrderItemLineDto> ItemLines { get; init; } = [];
+}
+
+public class KitchenOrdersPlacedDomainEvent : EventBase
+{
+	public Guid? OrderId { get; set; }
+	public List<OrderItemLineDto> ItemLines { get; init; } = [];
+}
+
+public class OrderIn(Guid orderId, Guid itemLineId, ItemType itemType) : EventBase
 {
     public Guid OrderId { get; set; } = orderId;
     public Guid ItemLineId { get; set; } = itemLineId;

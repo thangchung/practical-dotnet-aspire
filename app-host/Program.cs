@@ -1,20 +1,19 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var rabbitmq = builder.AddRabbitMQContainer("rabbitmq");
+var rabbitmq = builder.AddRabbitMQ("rabbitmq")
+	.WithDataVolume()
+	.WithManagementPlugin();
 
-var productApi = builder.AddProject<Projects.product_api>("productapi")
-    .WithReplicas(2);
+var productApi = builder.AddProject<Projects.CoffeeShop_ProductApi>("product-api");
 
-builder.AddProject<Projects.counter_api>("counterapi")
+builder.AddProject<Projects.CoffeeShop_CounterApi>("counter-api")
     .WithReference(productApi)
     .WithReference(rabbitmq);
 
-builder.AddProject<Projects.barista_api>("baristaapi")
-    .WithReference(rabbitmq)
-    .WithReplicas(2);
+builder.AddProject<Projects.CoffeeShop_BaristaApi>("barista-api")
+    .WithReference(rabbitmq);
 
-builder.AddProject<Projects.kitchen_api>("kitchenapi")
-    .WithReference(rabbitmq)
-    .WithReplicas(2);
+builder.AddProject<Projects.CoffeeShop_KitchenApi>("kitchen-api")
+    .WithReference(rabbitmq);
 
 builder.Build().Run();

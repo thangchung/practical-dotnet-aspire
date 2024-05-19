@@ -16,7 +16,6 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Pr
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 // builder.Services.AddHttpClient<ProductHttpClient>(client => 
 //     client.BaseAddress = new(builder.Configuration.GetValue<string>("ProductApiUrl")!));
@@ -45,12 +44,6 @@ builder.Services.AddMassTransit(x =>
 var app = builder.Build();
 
 app.UseExceptionHandler();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 app.UseRouting();
 

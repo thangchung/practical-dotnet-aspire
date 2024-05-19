@@ -3,17 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "barista-api", "barista-api\barista-api.csproj", "{1E1B0C85-DB1F-485E-8B5A-CE03E9977029}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShop.BaristaApi", "barista-api\CoffeeShop.BaristaApi.csproj", "{1E1B0C85-DB1F-485E-8B5A-CE03E9977029}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "service-defaults", "service-defaults\service-defaults.csproj", "{5E32B73F-45E0-4E11-BBCD-397249DF3E82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShop.ServiceDefaults", "service-defaults\CoffeeShop.ServiceDefaults.csproj", "{5E32B73F-45E0-4E11-BBCD-397249DF3E82}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "product-api", "product-api\product-api.csproj", "{605A641D-F5E3-4B6F-9092-591F0A7DEE9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShop.ProductApi", "product-api\CoffeeShop.ProductApi.csproj", "{605A641D-F5E3-4B6F-9092-591F0A7DEE9D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "app-host", "app-host\app-host.csproj", "{EB61218A-CF80-4389-9C6A-D6AA5C205E95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShop.AppHost", "app-host\CoffeeShop.AppHost.csproj", "{EB61218A-CF80-4389-9C6A-D6AA5C205E95}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kitchen-api", "kitchen-api\kitchen-api.csproj", "{16CC8BE1-3E21-46FB-813D-CF37C7079EC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShop.KitchenApi", "kitchen-api\CoffeeShop.KitchenApi.csproj", "{16CC8BE1-3E21-46FB-813D-CF37C7079EC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "counter-api", "counter-api\counter-api.csproj", "{6A163558-FB94-449A-817A-8D8FD08D5E22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShop.CounterApi", "counter-api\CoffeeShop.CounterApi.csproj", "{6A163558-FB94-449A-817A-8D8FD08D5E22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{140D0842-3BBC-4339-9C75-331FD9CB50F8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		global.json = global.json
+		NuGet.config = NuGet.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeShop.Shared", "shared\CoffeeShop.Shared\CoffeeShop.Shared.csproj", "{46796FD1-9AC2-498D-8535-D9E57286AA2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +57,10 @@ Global
 		{6A163558-FB94-449A-817A-8D8FD08D5E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A163558-FB94-449A-817A-8D8FD08D5E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A163558-FB94-449A-817A-8D8FD08D5E22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46796FD1-9AC2-498D-8535-D9E57286AA2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46796FD1-9AC2-498D-8535-D9E57286AA2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46796FD1-9AC2-498D-8535-D9E57286AA2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46796FD1-9AC2-498D-8535-D9E57286AA2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
