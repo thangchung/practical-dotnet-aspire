@@ -6,7 +6,7 @@ using CounterApi.Domain.Dtos;
 
 namespace CounterApi.Domain;
 
-public class Order(Guid id, OrderSource orderSource, Guid loyaltyMemberId, OrderStatus orderStatus, Location location) 
+public class Order(Guid id, OrderSource orderSource, Guid loyaltyMemberId, OrderStatus orderStatus, Location location)
 	: EntityRootBase(id)
 {
 	public OrderSource OrderSource { get; set; } = orderSource;
@@ -86,8 +86,8 @@ public class Order(Guid id, OrderSource orderSource, Guid loyaltyMemberId, Order
 					baristaEvents.OrderId ??= baristaOrderInEvent.OrderId;
 					baristaEvents.ItemLines.Add(
 						new OrderItemLineDto(
-							baristaOrderInEvent.ItemLineId, 
-							baristaOrderInEvent.ItemType, 
+							baristaOrderInEvent.ItemLineId,
+							baristaOrderInEvent.ItemType,
 							ItemStatus.IN_PROGRESS));
 					break;
 				case KitchenOrderIn kitchenOrderInEvent:
@@ -100,6 +100,10 @@ public class Order(Guid id, OrderSource orderSource, Guid loyaltyMemberId, Order
 					break;
 			}
 		}
+
+		DomainEvents.Clear();
+		DomainEvents.Add(baristaEvents);
+		DomainEvents.Add(kitchenEvents);
 
 		return this;
 	}

@@ -16,16 +16,15 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddMassTransit(x =>
 {
-    x.AddConsumer<BaristaOrderedConsumer>(typeof(BaristaOrderedConsumerDefinition));
+	x.AddConsumer<BaristaOrderedConsumer>(typeof(BaristaOrderedConsumerDefinition));
 
-    x.SetKebabCaseEndpointNameFormatter();
+	x.SetKebabCaseEndpointNameFormatter();
 
-    x.UsingRabbitMq((context, cfg) =>
-    {
-        // cfg.Host(builder.Configuration.GetValue<string>("RabbitMqUrl")!);
-        cfg.Host(builder.Configuration.GetConnectionString("rabbitmq")!);
-        cfg.ConfigureEndpoints(context);
-    });
+	x.UsingRabbitMq((context, cfg) =>
+	{
+		cfg.Host(builder.Configuration.GetConnectionString("rabbitmq")!);
+		cfg.ConfigureEndpoints(context);
+	});
 });
 
 var app = builder.Build();

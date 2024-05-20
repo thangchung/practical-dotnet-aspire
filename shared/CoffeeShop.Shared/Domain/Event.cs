@@ -1,4 +1,6 @@
-﻿namespace CoffeeShop.Shared.Domain;
+﻿using CoffeeShop.Shared.Helpers;
+
+namespace CoffeeShop.Shared.Domain;
 
 public interface IDomainEvent : INotification
 {
@@ -14,7 +16,7 @@ public abstract class EventBase : IDomainEvent
 {
 	public string EventType => GetType().FullName;
 
-	public DateTime CreatedAt { get; } = DateTime.UtcNow;
+	public DateTime CreatedAt { get; } = DateTimeHelper.NewDateTime();
 }
 
 public class EventWrapper(IDomainEvent @event) : INotification

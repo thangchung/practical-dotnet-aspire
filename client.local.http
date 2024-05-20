@@ -1,5 +1,6 @@
 @product_host = http://localhost:5001
 @host = http://localhost:5002
+@order_host = http://localhost:5005
 
 ###
 GET {{product_host}}/v1/api/item-types HTTP/1.1
@@ -36,4 +37,9 @@ content-type: application/json
 
 ###
 GET {{host}}/v1/api/fulfillment-orders HTTP/1.1
+content-type: application/json
+
+###
+@orderId = f0c60000-8d12-00ff-509a-08dc78db471b
+GET {{order_host}}/summary?orderId={{orderId}}
 content-type: application/json

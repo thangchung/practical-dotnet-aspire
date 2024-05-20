@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+		<PackageReference Include="Microsoft.OpenApi" />
+		<PackageReference Include="MediatR" />
+		<PackageReference Include="FluentValidation.AspNetCore" />
+		<PackageReference Include="MassTransit" />
+		<PackageReference Include="MassTransit.RabbitMQ" />
+		<PackageReference Include="Marten.AspNetCore" />
+		<PackageReference Include="Marten" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\service-defaults\CoffeeShop.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\shared\CoffeeShop.Shared\CoffeeShop.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -50,7 +50,9 @@ public static class Extensions
             .WithTracing(tracing =>
             {
                 tracing.AddAspNetCoreInstrumentation()
-                       .AddHttpClientInstrumentation();
+                       .AddHttpClientInstrumentation()
+					   .AddSource("MassTransit")
+					   .AddSource("Marten");
             });
 
         builder.AddOpenTelemetryExporters();

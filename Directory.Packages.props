@@ -24,6 +24,8 @@
 		<PackageVersion Include="Riok.Mapperly" Version="3.5.1" ExcludeAssets="runtime" PrivateAssets="all" />
 		<PackageVersion Include="MassTransit" Version="8.1.2" />
 		<PackageVersion Include="MassTransit.RabbitMQ" Version="8.1.2" />
+		<PackageVersion Include="Marten.AspNetCore" Version="7.10.1" />
+		<PackageVersion Include="Marten" Version="7.10.1" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -10,12 +10,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="Aspire.Hosting.AppHost" />
-		<PackageReference Include="Aspire.Hosting.PostgreSQL"  />
+		<PackageReference Include="Aspire.Hosting.PostgreSQL" />
 		<PackageReference Include="Aspire.Hosting.Redis" />
 		<PackageReference Include="Aspire.Hosting.RabbitMQ" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\order-summary\CoffeeShop.OrderSummary.csproj" />
 		<ProjectReference Include="..\product-api\CoffeeShop.ProductApi.csproj" />
 		<ProjectReference Include="..\counter-api\CoffeeShop.CounterApi.csproj" />
 		<ProjectReference Include="..\barista-api\CoffeeShop.BaristaApi.csproj" />

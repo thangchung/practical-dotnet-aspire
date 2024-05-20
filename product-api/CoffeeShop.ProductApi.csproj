@@ -12,10 +12,10 @@
 		<PackageReference Include="Microsoft.OpenApi" />
 		<PackageReference Include="MediatR" />
 		<PackageReference Include="FluentValidation.AspNetCore" />
-  	</ItemGroup>
+	</ItemGroup>
 
 	<ItemGroup>
-    	<ProjectReference Include="..\service-defaults\CoffeeShop.ServiceDefaults.csproj" />
-  </ItemGroup>
+		<ProjectReference Include="..\service-defaults\CoffeeShop.ServiceDefaults.csproj" />
+	</ItemGroup>
 
 </Project>
