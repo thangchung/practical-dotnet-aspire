@@ -24,6 +24,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
+builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddMassTransit(x =>
@@ -66,7 +67,14 @@ builder.Services.AddMarten(sp =>
 
 var app = builder.Build();
 
-app.UseExceptionHandler();
+if (!app.Environment.IsDevelopment())
+{
+	app.UseExceptionHandler();
+}
+else
+{
+	app.UseSwagger();
+}
 
 app.UseRouting();
 

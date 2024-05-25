@@ -12,6 +12,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
+builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
@@ -19,6 +20,9 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
 	app.UseExceptionHandler();
+} else
+{
+	app.UseSwagger();
 }
 
 app.MapDefaultEndpoints();

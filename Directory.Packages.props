@@ -1,47 +1,53 @@
 <Project>
-	<PropertyGroup>
-		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-		<CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
-		<AspnetVersion>8.0.5</AspnetVersion>
-		<MicrosoftExtensionsVersion>8.4.0</MicrosoftExtensionsVersion>
-		<EfVersion>8.0.4</EfVersion>
-		<AspireVersion>8.0.1</AspireVersion>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageVersion Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0-beta.4" />
-		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspnetVersion)" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfVersion)" PrivateAssets="all" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfVersion)" />
-		<PackageVersion Include="Microsoft.OpenApi" Version="1.6.10" />
-	</ItemGroup>
-
-	<ItemGroup>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    <AspnetVersion>8.0.5</AspnetVersion>
+    <MicrosoftExtensionsVersion>8.4.0</MicrosoftExtensionsVersion>
+    <EfVersion>8.0.4</EfVersion>
+    <AspireVersion>8.0.1</AspireVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Aspirant.Hosting" Version="0.0.3" />
+    <PackageVersion Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0-beta.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspnetVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfVersion)" PrivateAssets="all" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfVersion)" />
+    <PackageVersion Include="Microsoft.OpenApi" Version="1.6.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="MediatR" Version="12.2.0" />
+    <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
+		<PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageVersion Include="Riok.Mapperly" Version="3.5.1" ExcludeAssets="runtime" PrivateAssets="all" />
+    <PackageVersion Include="MassTransit" Version="8.1.2" />
+    <PackageVersion Include="MassTransit.RabbitMQ" Version="8.1.2" />
+    <PackageVersion Include="Marten.AspNetCore" Version="7.10.1" />
+    <PackageVersion Include="Marten" Version="7.10.1" />
 		<PackageVersion Include="Yarp.ReverseProxy" Version="2.1.0" />
-		<PackageVersion Include="MediatR" Version="12.2.0" />
-		<PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
-		<PackageVersion Include="Riok.Mapperly" Version="3.5.1" ExcludeAssets="runtime" PrivateAssets="all" />
-		<PackageVersion Include="MassTransit" Version="8.1.2" />
-		<PackageVersion Include="MassTransit.RabbitMQ" Version="8.1.2" />
-		<PackageVersion Include="Marten.AspNetCore" Version="7.10.1" />
-		<PackageVersion Include="Marten" Version="7.10.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<!-- Aspire -->
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Aspire -->
+		<PackageVersion Include="Aspire.Hosting" Version="$(AspireVersion)" />
 		<PackageVersion Include="Aspire.Hosting.AppHost" Version="$(AspireVersion)" />
-		<PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="$(AspireVersion)" />
-		<PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="$(AspireVersion)" />
-		<PackageVersion Include="Aspire.Hosting.Redis" Version="$(AspireVersion)" />
-		<!-- Aspire Custom Extensions -->
-		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="$(MicrosoftExtensionsVersion)" />
-		<PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="$(AspireVersion)" />
-		<PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.8.1" />
-		<PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.8.1" />
-		<PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.8.1" />
-		<PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.8.1" />
-		<PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.8.0" />
+    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="$(AspireVersion)" />
+    <PackageVersion Include="Aspire.Hosting.Redis" Version="$(AspireVersion)" />
+    <!-- Aspire Custom Extensions -->
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="$(AspireVersion)" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.8.1" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.8.0" />
+    <PackageVersion Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.3.0-beta.2" />
+    <PackageVersion Include="Aspirant.Hosting.Yarp" Version="0.0.3" />
+  </ItemGroup>
+	<ItemGroup>
 		<PackageVersion Include="AspNetCore.HealthChecks.Uris" Version="8.0.1" />
-		<PackageVersion Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.3.0-beta.2" />
+		<PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.1" />
+		<PackageVersion Include="AspNetCore.HealthChecks.Rabbitmq" Version="8.0.1" />
+		<PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="8.0.1" />
 	</ItemGroup>
 </Project>

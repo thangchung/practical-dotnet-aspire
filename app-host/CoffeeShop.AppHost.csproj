@@ -9,10 +9,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Aspire.Hosting" />
 		<PackageReference Include="Aspire.Hosting.AppHost" />
 		<PackageReference Include="Aspire.Hosting.PostgreSQL" />
 		<PackageReference Include="Aspire.Hosting.Redis" />
 		<PackageReference Include="Aspire.Hosting.RabbitMQ" />
+		<PackageReference Include="Aspirant.Hosting" />
+		<PackageReference Include="Aspirant.Hosting.Yarp" />
+		<PackageReference Include="Yarp.ReverseProxy" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" />
+		<PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" />
+		<PackageReference Include="AspNetCore.HealthChecks.Redis" />
+		<PackageReference Include="AspNetCore.HealthChecks.Uris" />
 	</ItemGroup>
 
 	<ItemGroup>
