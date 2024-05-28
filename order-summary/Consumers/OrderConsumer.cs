@@ -1,11 +1,8 @@
 ﻿using System.Diagnostics;
 
 using CoffeeShop.MessageContracts;
+using CoffeeShop.OrderSummary.Models;
 using CoffeeShop.Shared.Helpers;
-
-using Marten;
-
-using MassTransit;
 
 namespace CoffeeShop.OrderSummary.Consumers;
 

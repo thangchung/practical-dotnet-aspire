@@ -1,43 +1,44 @@
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
 @hostname=localhost:5000
 
-POST https://{{hostname}}/c/v1/api/orders
+POST https://{{hostname}}/c/api/v1/orders
 Content-Type: application/json
 
 {
-  "commandType": 0,
-  "orderSource": 0,
-  "location": 0,
-  "loyaltyMemberId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "baristaItems": [
-    {
-      "itemType": {{$randomInt 0 5}}
-    },
-    {
-      "itemType": {{$randomInt 0 5}}
-    }
-  ],
-  "kitchenItems": [
-    {
-      "itemType": {{$randomInt 6 9}}
-    }
-  ],
-  "timestamp": "{{$datetime iso8601}}"
+	"orderId": "{{$guid}}",
+	"commandType": 0,
+	"orderSource": 0,
+	"location": 0,
+	"loyaltyMemberId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+	"baristaItems": [
+		{
+			"itemType": {{$randomInt 0 5}}
+		},
+		{
+			"itemType": {{$randomInt 0 5}}
+		}
+	],
+	"kitchenItems": [
+		{
+			"itemType": {{$randomInt 6 9}}
+		}
+	],
+	"timestamp": "{{$datetime iso8601}}"
 }
 
 ###
-GET https://{{hostname}}/c/v1/api/fulfillment-orders
+GET https://{{hostname}}/c/api/v1/fulfillment-orders
 content-type: application/json
 
 ###
-GET https://{{hostname}}/p/v1/api/item-types
+GET https://{{hostname}}/p/api/v1/item-types
 content-type: application/json
 
 ###
-GET https://{{hostname}}/p/v1/api/items-by-types/1,2,3
+GET https://{{hostname}}/p/api/v1/items-by-types/1,2,3
 content-type: application/json
 
 ###
 @orderId = 8cf20000-8d12-00ff-acd0-08dc7cc27ccd
-GET https://{{hostname}}/audit/summary?orderId={{orderId}}
+GET https://{{hostname}}/audit/api/v1/summary?orderId={{orderId}}
 content-type: application/json

@@ -9,6 +9,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
+		<PackageReference Include="Asp.Versioning.Http" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 		<PackageReference Include="MediatR" />
 		<PackageReference Include="FluentValidation.AspNetCore" />
@@ -17,7 +19,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\service-defaults\CoffeeShop.ServiceDefaults.csproj" />
 		<ProjectReference Include="..\shared\CoffeeShop.Shared\CoffeeShop.Shared.csproj" />
 	</ItemGroup>
 

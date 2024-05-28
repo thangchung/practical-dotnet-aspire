@@ -1,50 +1,45 @@
-using FluentValidation;
-using MediatR;
+using CoffeeShop.Shared.Endpoint;
 
 using ProductApi.Domain;
-using ProductApi.Dtos;
+using ProductApi.Dto;
 
 namespace ProductApi.UseCases;
 
-internal static class ItemsByIdsQueryRouter
+public class ItemsByIdsEndpoint : IEndpoint
 {
-    public static IEndpointRouteBuilder MapItemTypesQueryApiRoutes(this IEndpointRouteBuilder builder)
-    {
-        builder.MapGet("/v1/api/items-by-types/{itemTypes}",
-            async (ISender sender, string itemTypes) =>
-                await sender.Send(new ItemsByIdsQuery(itemTypes)));
-        // builder.MapGet("/v1-items-by-types/{itemTypes}",
-        //     async (ISender sender, string itemTypes) =>
-        //         await sender.Send(new ItemsByIdsQuery(itemTypes)));
-        return builder;
-    }
+	public void MapEndpoint(IEndpointRouteBuilder app)
+	{
+		app.MapGet("items-by-types/{itemTypes}",
+			async (ISender sender, string itemTypes) =>
+				await sender.Send(new ItemsByIdsQuery(itemTypes)));
+	}
 }
 
 public record ItemsByIdsQuery(string ItemTypes) : IRequest<IEnumerable<ItemDto>>;
 
 internal class ItemsByIdsQueryValidator : AbstractValidator<ItemsByIdsQuery>
 {
-    public ItemsByIdsQueryValidator()
-    {
-        RuleFor(v => v.ItemTypes)
-            .NotEmpty().WithMessage("ItemTypes is required.");
-    }
+	public ItemsByIdsQueryValidator()
+	{
+		RuleFor(v => v.ItemTypes)
+			.NotEmpty().WithMessage("ItemTypes is required.");
+	}
 }
 
 internal class ItemsByIdsQueryHandler(ILogger<ItemsByIdsQueryHandler> logger) : IRequestHandler<ItemsByIdsQuery, IEnumerable<ItemDto>>
 {
-    public Task<IEnumerable<ItemDto>> Handle(ItemsByIdsQuery request, CancellationToken cancellationToken)
-    {
-        ArgumentNullException.ThrowIfNull(request);
+	public Task<IEnumerable<ItemDto>> Handle(ItemsByIdsQuery request, CancellationToken cancellationToken)
+	{
+		ArgumentNullException.ThrowIfNull(request);
 
-        var results = new List<ItemDto>();
-        var itemTypes = request.ItemTypes.Split(",").Select(id => (ItemType)Convert.ToInt16(id));
-        foreach (var itemType in itemTypes)
-        {
-            var temp = Item.GetItem(itemType);
-            results.Add(new ItemDto(temp.Type, temp.Price));
-        }
+		var results = new List<ItemDto>();
+		var itemTypes = request.ItemTypes.Split(",").Select(id => (ItemType)Convert.ToInt16(id));
+		foreach (var itemType in itemTypes)
+		{
+			var temp = Item.GetItem(itemType);
+			results.Add(new ItemDto(temp.Type, temp.Price));
+		}
 
-        return Task.FromResult(results.Distinct());
-    }
+		return Task.FromResult(results.Distinct());
+	}
 }

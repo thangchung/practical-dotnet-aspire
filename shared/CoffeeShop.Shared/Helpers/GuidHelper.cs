@@ -1,8 +1,8 @@
 ﻿namespace CoffeeShop.Shared.Helpers;
 
+[DebuggerStepThrough]
 public static class GuidHelper
 {
-	[DebuggerStepThrough]
 	public static Guid NewGuid()
 	{
 		return NewId.NextGuid();

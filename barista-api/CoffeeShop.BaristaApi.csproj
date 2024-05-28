@@ -16,8 +16,8 @@
     <PackageReference Include="MassTransit.RabbitMQ" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\service-defaults\CoffeeShop.ServiceDefaults.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\shared\CoffeeShop.Shared\CoffeeShop.Shared.csproj" />
+	</ItemGroup>
 
 </Project>

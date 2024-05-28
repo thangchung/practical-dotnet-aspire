@@ -1,0 +1,12 @@
+﻿global using FluentValidation;
+global using MassTransit;
+global using JasperFx.CodeGeneration;
+global using Marten;
+global using Marten.AspNetCore;
+global using Marten.Events.Daemon.Resiliency;
+global using Marten.Events.Projections;
+global using Weasel.Core;
+global using MediatR;
+global using Asp.Versioning;
+global using Asp.Versioning.Builder;
+global using System.Text.Json;

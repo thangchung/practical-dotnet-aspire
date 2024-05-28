@@ -1,6 +1,7 @@
 using FluentValidation;
 using MassTransit;
 using BaristaApi.IntegrationEvents.EventHandlers;
+using CoffeeShop.Shared.OpenTelemetry;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,8 @@ builder.Services.AddMassTransit(x =>
 		cfg.ConfigureEndpoints(context);
 	});
 });
+
+builder.Services.AddSingleton<IActivityScope, ActivityScope>();
 
 var app = builder.Build();
 

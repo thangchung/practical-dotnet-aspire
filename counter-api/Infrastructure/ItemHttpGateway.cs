@@ -1,4 +1,3 @@
-using System.Text.Json;
 using CounterApi.Domain;
 using CounterApi.Domain.Dtos;
 
@@ -13,7 +12,7 @@ public class ItemHttpGateway(IHttpClientFactory httpClientFactory, IConfiguratio
         var httpClient = httpClientFactory.CreateClient();
         httpClient.BaseAddress = new Uri(config.GetValue<string>("ProductApiUrl")!); //todo: need truly service discovery
 
-        var httpResponseMessage = await httpClient.GetFromJsonAsync<List<ItemDto>>(config.GetValue("GetItemTypesApiRoute", "/v1/api/item-types"));
+        var httpResponseMessage = await httpClient.GetFromJsonAsync<List<ItemDto>>(config.GetValue("GetItemTypesApiRoute", "/api/v1/item-types"));
         logger.LogInformation("Can get {Count} items", httpResponseMessage?.Count);
         logger.LogInformation("JSON: {HttpResponseMessage}", JsonSerializer.Serialize(httpResponseMessage));
 

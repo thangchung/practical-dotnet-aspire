@@ -17,7 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\service-defaults\CoffeeShop.ServiceDefaults.csproj" />
+		<ProjectReference Include="..\shared\CoffeeShop.Shared\CoffeeShop.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

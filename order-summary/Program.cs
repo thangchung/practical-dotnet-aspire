@@ -1,18 +1,8 @@
-using CoffeeShop.OrderSummary;
 using CoffeeShop.OrderSummary.Consumers;
-
-using FluentValidation;
-
-using JasperFx.CodeGeneration;
-
-using Marten;
-using Marten.AspNetCore;
-using Marten.Events.Daemon.Resiliency;
-using Marten.Events.Projections;
-
-using MassTransit;
-
-using Weasel.Core;
+using CoffeeShop.OrderSummary.Features;
+using CoffeeShop.OrderSummary.Models;
+using CoffeeShop.Shared.Endpoint;
+using CoffeeShop.Shared.OpenTelemetry;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +16,18 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddApiVersioning(options =>
+{
+	options.DefaultApiVersion = new ApiVersion(1);
+	options.ApiVersionReader = new UrlSegmentApiVersionReader();
+}).AddApiExplorer(options =>
+{
+	options.GroupNameFormat = "'v'V";
+	options.SubstituteApiVersionInUrl = true;
+});
+
+builder.Services.AddEndpoints(typeof(Program).Assembly);
 
 builder.Services.AddMassTransit(x =>
 {
@@ -65,7 +67,18 @@ builder.Services.AddMarten(sp =>
 .UseLightweightSessions()
 .AddAsyncDaemon(DaemonMode.Solo);
 
+builder.Services.AddSingleton<IActivityScope, ActivityScope>();
+
 var app = builder.Build();
+
+var apiVersionSet = app.NewApiVersionSet()
+	.HasApiVersion(new ApiVersion(1))
+	.ReportApiVersions()
+	.Build();
+
+var versionedGroup = app
+	.MapGroup("api/v{version:apiVersion}")
+	.WithApiVersionSet(apiVersionSet);
 
 if (!app.Environment.IsDevelopment())
 {
@@ -80,10 +93,10 @@ app.UseRouting();
 
 app.MapDefaultEndpoints();
 
-app.MapGet("summary", (HttpContext context, IQuerySession querySession, Guid orderId) =>
-	querySession.Json.WriteById<OrderSummary>(orderId, context)
-);
+app.MapEndpoints(versionedGroup);
 
 app.Run();
 
 public partial class Program;
+
+

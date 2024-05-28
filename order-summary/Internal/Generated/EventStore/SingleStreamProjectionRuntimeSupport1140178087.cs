@@ -8,19 +8,19 @@ using System.Linq;
 
 namespace Marten.Generated.EventStore
 {
-    // START: SingleStreamProjectionLiveAggregation1174671379
-    public class SingleStreamProjectionLiveAggregation1174671379 : Marten.Events.Aggregation.SyncLiveAggregatorBase<CoffeeShop.OrderSummary.Order>
+    // START: SingleStreamProjectionLiveAggregation1140178087
+    public class SingleStreamProjectionLiveAggregation1140178087 : Marten.Events.Aggregation.SyncLiveAggregatorBase<CoffeeShop.OrderSummary.Models.Order>
     {
-        private readonly Marten.Events.Aggregation.SingleStreamProjection<CoffeeShop.OrderSummary.Order> _singleStreamProjection;
+        private readonly Marten.Events.Aggregation.SingleStreamProjection<CoffeeShop.OrderSummary.Models.Order> _singleStreamProjection;
 
-        public SingleStreamProjectionLiveAggregation1174671379(Marten.Events.Aggregation.SingleStreamProjection<CoffeeShop.OrderSummary.Order> singleStreamProjection)
+        public SingleStreamProjectionLiveAggregation1140178087(Marten.Events.Aggregation.SingleStreamProjection<CoffeeShop.OrderSummary.Models.Order> singleStreamProjection)
         {
             _singleStreamProjection = singleStreamProjection;
         }
 
 
 
-        public override CoffeeShop.OrderSummary.Order Build(System.Collections.Generic.IReadOnlyList<Marten.Events.IEvent> events, Marten.IQuerySession session, CoffeeShop.OrderSummary.Order snapshot)
+        public override CoffeeShop.OrderSummary.Models.Order Build(System.Collections.Generic.IReadOnlyList<Marten.Events.IEvent> events, Marten.IQuerySession session, CoffeeShop.OrderSummary.Models.Order snapshot)
         {
             if (!events.Any()) return snapshot;
             var usedEventOnCreate = snapshot is null;
@@ -40,13 +40,13 @@ namespace Marten.Generated.EventStore
         }
 
 
-        public CoffeeShop.OrderSummary.Order Create(Marten.Events.IEvent @event, Marten.IQuerySession session)
+        public CoffeeShop.OrderSummary.Models.Order Create(Marten.Events.IEvent @event, Marten.IQuerySession session)
         {
             return null;
         }
 
 
-        public CoffeeShop.OrderSummary.Order Apply(Marten.Events.IEvent @event, CoffeeShop.OrderSummary.Order aggregate, Marten.IQuerySession session)
+        public CoffeeShop.OrderSummary.Models.Order Apply(Marten.Events.IEvent @event, CoffeeShop.OrderSummary.Models.Order aggregate, Marten.IQuerySession session)
         {
             switch (@event)
             {
@@ -69,19 +69,19 @@ namespace Marten.Generated.EventStore
 
     }
 
-    // END: SingleStreamProjectionLiveAggregation1174671379
+    // END: SingleStreamProjectionLiveAggregation1140178087
     
     
-    // START: SingleStreamProjectionInlineHandler1174671379
-    public class SingleStreamProjectionInlineHandler1174671379 : Marten.Events.Aggregation.AggregationRuntime<CoffeeShop.OrderSummary.Order, System.Guid>
+    // START: SingleStreamProjectionInlineHandler1140178087
+    public class SingleStreamProjectionInlineHandler1140178087 : Marten.Events.Aggregation.AggregationRuntime<CoffeeShop.OrderSummary.Models.Order, System.Guid>
     {
         private readonly Marten.IDocumentStore _store;
         private readonly Marten.Events.Aggregation.IAggregateProjection _projection;
-        private readonly Marten.Events.Aggregation.IEventSlicer<CoffeeShop.OrderSummary.Order, System.Guid> _slicer;
-        private readonly Marten.Internal.Storage.IDocumentStorage<CoffeeShop.OrderSummary.Order, System.Guid> _storage;
-        private readonly Marten.Events.Aggregation.SingleStreamProjection<CoffeeShop.OrderSummary.Order> _singleStreamProjection;
+        private readonly Marten.Events.Aggregation.IEventSlicer<CoffeeShop.OrderSummary.Models.Order, System.Guid> _slicer;
+        private readonly Marten.Internal.Storage.IDocumentStorage<CoffeeShop.OrderSummary.Models.Order, System.Guid> _storage;
+        private readonly Marten.Events.Aggregation.SingleStreamProjection<CoffeeShop.OrderSummary.Models.Order> _singleStreamProjection;
 
-        public SingleStreamProjectionInlineHandler1174671379(Marten.IDocumentStore store, Marten.Events.Aggregation.IAggregateProjection projection, Marten.Events.Aggregation.IEventSlicer<CoffeeShop.OrderSummary.Order, System.Guid> slicer, Marten.Internal.Storage.IDocumentStorage<CoffeeShop.OrderSummary.Order, System.Guid> storage, Marten.Events.Aggregation.SingleStreamProjection<CoffeeShop.OrderSummary.Order> singleStreamProjection) : base(store, projection, slicer, storage)
+        public SingleStreamProjectionInlineHandler1140178087(Marten.IDocumentStore store, Marten.Events.Aggregation.IAggregateProjection projection, Marten.Events.Aggregation.IEventSlicer<CoffeeShop.OrderSummary.Models.Order, System.Guid> slicer, Marten.Internal.Storage.IDocumentStorage<CoffeeShop.OrderSummary.Models.Order, System.Guid> storage, Marten.Events.Aggregation.SingleStreamProjection<CoffeeShop.OrderSummary.Models.Order> singleStreamProjection) : base(store, projection, slicer, storage)
         {
             _store = store;
             _projection = projection;
@@ -92,7 +92,7 @@ namespace Marten.Generated.EventStore
 
 
 
-        public override async System.Threading.Tasks.ValueTask<CoffeeShop.OrderSummary.Order> ApplyEvent(Marten.IQuerySession session, Marten.Events.Projections.EventSlice<CoffeeShop.OrderSummary.Order, System.Guid> slice, Marten.Events.IEvent evt, CoffeeShop.OrderSummary.Order aggregate, System.Threading.CancellationToken cancellationToken)
+        public override async System.Threading.Tasks.ValueTask<CoffeeShop.OrderSummary.Models.Order> ApplyEvent(Marten.IQuerySession session, Marten.Events.Projections.EventSlice<CoffeeShop.OrderSummary.Models.Order, System.Guid> slice, Marten.Events.IEvent evt, CoffeeShop.OrderSummary.Models.Order aggregate, System.Threading.CancellationToken cancellationToken)
         {
             switch (evt)
             {
@@ -118,14 +118,14 @@ namespace Marten.Generated.EventStore
         }
 
 
-        public CoffeeShop.OrderSummary.Order Create(Marten.Events.IEvent @event, Marten.IQuerySession session)
+        public CoffeeShop.OrderSummary.Models.Order Create(Marten.Events.IEvent @event, Marten.IQuerySession session)
         {
             return null;
         }
 
     }
 
-    // END: SingleStreamProjectionInlineHandler1174671379
+    // END: SingleStreamProjectionInlineHandler1140178087
     
     
 }

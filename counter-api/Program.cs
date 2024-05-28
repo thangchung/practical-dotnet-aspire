@@ -1,25 +1,42 @@
-using FluentValidation;
-using CounterApi.UseCases;
-using MassTransit;
 using CounterApi.IntegrationEvents.EventHandlers;
 using CounterApi.Infrastructure.Gateways;
 using CounterApi.Domain;
+using CoffeeShop.Shared.Validation;
+using CoffeeShop.Shared.Endpoint;
+using CoffeeShop.Shared.Exceptions;
+using CoffeeShop.Shared.OpenTelemetry;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
+builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddMediatR(cfg => { 
+	cfg.RegisterServicesFromAssemblyContaining<Program>();
+	cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+});
+builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 
-// builder.Services.AddHttpClient<ProductHttpClient>(client => 
-//     client.BaseAddress = new(builder.Configuration.GetValue<string>("ProductApiUrl")!));
+builder.Services.AddApiVersioning(options =>
+{
+	options.DefaultApiVersion = new ApiVersion(1);
+	options.ApiVersionReader = new UrlSegmentApiVersionReader();
+}).AddApiExplorer(options =>
+{
+	options.GroupNameFormat = "'v'V";
+	options.SubstituteApiVersionInUrl = true;
+});
+
+builder.Services.AddEndpoints(typeof(Program).Assembly);
+
+builder.Services.AddSingleton<IActivityScope, ActivityScope>();
 builder.Services.AddScoped<IItemGateway, ItemHttpGateway>();
 
 builder.Services.AddMassTransit(x =>
@@ -31,12 +48,6 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        // Console.WriteLine($"RabbitMQ Conn: {builder.Configuration.GetConnectionString("rabbitmq")}");
-        // cfg.Host(new Uri(builder.Configuration.GetConnectionString("rabbitmq")!), h => {
-        //     h.Username("guest");
-        //     h.Password("guest");
-        // });
-        
         cfg.Host(builder.Configuration.GetConnectionString("rabbitmq")!);
         cfg.ConfigureEndpoints(context);
     });
@@ -44,11 +55,18 @@ builder.Services.AddMassTransit(x =>
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
-{
-	app.UseExceptionHandler();
-}
-else
+var apiVersionSet = app.NewApiVersionSet()
+	.HasApiVersion(new ApiVersion(1))
+	.ReportApiVersions()
+	.Build();
+
+var versionedGroup = app
+	.MapGroup("api/v{version:apiVersion}")
+	.WithApiVersionSet(apiVersionSet);
+
+app.UseExceptionHandler();
+
+if(app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 }
@@ -56,12 +74,8 @@ else
 app.UseRouting();
 
 app.MapDefaultEndpoints();
-
-app.Map("/", () => Results.Redirect("/swagger"));
-
-// todo
-_ = app.MapOrderInApiRoutes()
-    // .MapOrderUpApiRoutes()
-    .MapOrderFulfillmentApiRoutes();
+app.MapEndpoints(versionedGroup);
 
 app.Run();
+
+public partial class Program;

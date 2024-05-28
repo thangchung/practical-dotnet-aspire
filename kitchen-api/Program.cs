@@ -1,3 +1,5 @@
+using CoffeeShop.Shared.OpenTelemetry;
+
 using FluentValidation;
 using KitchenApi.IntegrationEvents.EventHandlers;
 using MassTransit;
@@ -26,6 +28,8 @@ builder.Services.AddMassTransit(x =>
         cfg.ConfigureEndpoints(context);
     });
 });
+
+builder.Services.AddSingleton<IActivityScope, ActivityScope>();
 
 var app = builder.Build();
 

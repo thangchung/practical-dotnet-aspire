@@ -1,6 +1,6 @@
 ﻿namespace CoffeeShop.Shared.Domain;
 
-public class CoreException : Exception
+public class CoreException : System.Exception
 {
 	public CoreException(string message) : base(message)
 	{

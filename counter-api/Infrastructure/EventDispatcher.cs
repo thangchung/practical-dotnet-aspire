@@ -1,9 +1,6 @@
 ﻿using CoffeeShop.MessageContracts;
 using CoffeeShop.Shared.Domain;
 using CounterApi.Domain.DomainEvents;
-using MassTransit;
-
-using MediatR;
 
 namespace CounterApi.Infrastructure;
 
