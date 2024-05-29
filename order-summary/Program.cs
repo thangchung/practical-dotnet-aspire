@@ -2,17 +2,25 @@ using CoffeeShop.OrderSummary.Consumers;
 using CoffeeShop.OrderSummary.Features;
 using CoffeeShop.OrderSummary.Models;
 using CoffeeShop.Shared.Endpoint;
+using CoffeeShop.Shared.Exceptions;
 using CoffeeShop.Shared.OpenTelemetry;
+using CoffeeShop.Shared.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
+builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddMediatR(cfg => {
+	cfg.RegisterServicesFromAssemblyContaining<Program>();
+	cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+	cfg.AddOpenBehavior(typeof(HandlerBehavior<,>));
+});
+builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
@@ -68,6 +76,7 @@ builder.Services.AddMarten(sp =>
 .AddAsyncDaemon(DaemonMode.Solo);
 
 builder.Services.AddSingleton<IActivityScope, ActivityScope>();
+builder.Services.AddSingleton<CommandHandlerMetrics>();
 
 var app = builder.Build();
 
@@ -80,11 +89,9 @@ var versionedGroup = app
 	.MapGroup("api/v{version:apiVersion}")
 	.WithApiVersionSet(apiVersionSet);
 
-if (!app.Environment.IsDevelopment())
-{
-	app.UseExceptionHandler();
-}
-else
+app.UseExceptionHandler();
+
+if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 }

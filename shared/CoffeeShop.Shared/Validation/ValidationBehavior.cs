@@ -30,14 +30,15 @@ public class ValidationBehavior<TRequest, TResponse>(IActivityScope activityScop
 				validationFailure.ErrorMessage))
 			.ToList();
 
-		if (errors.Any())
+		if (errors.Count != 0)
 		{
 			throw new ValidationException(errors);
 		}
 
 		var queryName = typeof(TRequest).Name;
 		var validatorNames = validators.Aggregate("", (c ,x) => $"{x.GetType().Name}, {c}");
-		var activityName = $"{queryName}-{validatorNames}";
+		var activityName = $"{queryName}-{validatorNames.Trim().TrimEnd(',')}";
+
 		return await activityScope.Run(
 			activityName,
 				async (_, token) => await next(),

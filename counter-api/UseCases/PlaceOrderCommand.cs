@@ -1,5 +1,6 @@
 using CoffeeShop.Shared.Domain;
 using CoffeeShop.Shared.Endpoint;
+using CoffeeShop.Shared.OpenTelemetry;
 
 using CounterApi.Domain;
 using CounterApi.Domain.Commands;
@@ -23,6 +24,7 @@ internal class OrderInValidator : AbstractValidator<PlaceOrderCommand>
 	}
 }
 
+// [IgnoreOTelOnHandler]
 internal class PlaceOrderHandler(IPublisher publisher, IItemGateway itemGateway, ILogger<PlaceOrderHandler> logger)
 	: IRequestHandler<PlaceOrderCommand, IResult>
 {

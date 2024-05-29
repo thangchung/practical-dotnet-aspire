@@ -18,6 +18,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddMediatR(cfg => { 
 	cfg.RegisterServicesFromAssemblyContaining<Program>();
 	cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
+	cfg.AddOpenBehavior(typeof(HandlerBehavior<,>));
 });
 builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
 
@@ -37,6 +38,7 @@ builder.Services.AddApiVersioning(options =>
 builder.Services.AddEndpoints(typeof(Program).Assembly);
 
 builder.Services.AddSingleton<IActivityScope, ActivityScope>();
+builder.Services.AddSingleton<CommandHandlerMetrics>();
 builder.Services.AddScoped<IItemGateway, ItemHttpGateway>();
 
 builder.Services.AddMassTransit(x =>
