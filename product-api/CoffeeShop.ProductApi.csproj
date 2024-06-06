@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>ProductApi</RootNamespace>
+		<ContainerRegistry>k3d-myregistry.vn:12345</ContainerRegistry>
 		<ContainerRepository>product-api</ContainerRepository>
 		<ContainerImageTag>latest</ContainerImageTag>
 	</PropertyGroup>

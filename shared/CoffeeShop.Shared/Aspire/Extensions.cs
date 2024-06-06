@@ -1,3 +1,4 @@
+using CoffeeShop.Shared.Logging;
 using CoffeeShop.Shared.OpenTelemetry;
 
 using MassTransit.Logging;
@@ -19,6 +20,8 @@ public static class Extensions
 {
 	public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
 	{
+		// builder.Services.AddHttpContextAccessor();
+
 		builder.ConfigureOpenTelemetry();
 
 		builder.AddDefaultHealthChecks();
@@ -39,6 +42,9 @@ public static class Extensions
 
 	public static IHostApplicationBuilder ConfigureOpenTelemetry(this IHostApplicationBuilder builder)
 	{
+		builder.Logging.EnableEnrichment();
+		builder.Services.AddLogEnricher<ApplicationEnricher>();
+
 		builder.Logging.AddOpenTelemetry(logging =>
 		{
 			logging.IncludeFormattedMessage = true;

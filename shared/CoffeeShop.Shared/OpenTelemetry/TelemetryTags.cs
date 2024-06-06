@@ -2,17 +2,6 @@
 
 public static class TelemetryTags
 {
-	public static class Logic
-	{
-		public static class Entities
-		{
-			public const string Entity = $"{ActivitySourceProvider.DefaultSourceName}.entity";
-			public const string EntityType = $"{Entity}.type";
-			public const string EntityId = $"{Entity}.id";
-			public const string EntityVersion = $"{Entity}.version";
-		}
-	}
-
 	public static class Commands
 	{
 		public const string Command = $"{ActivitySourceProvider.DefaultSourceName}.command";
@@ -24,24 +13,19 @@ public static class TelemetryTags
 		public const string CommandHandlingDuration = $"{CommandHandling}.duration";
 	}
 
-	public static class QueryHandling
+	public static class Queries
 	{
 		public const string Query = $"{ActivitySourceProvider.DefaultSourceName}.query";
+		public const string QueryType = $"{Query}.type";
+		public const string QueriesMeter = $"{ActivitySourceProvider.DefaultSourceName}.queries";
+		public const string QueryHandling = $"{QueriesMeter}.handling";
+		public const string ActiveQueriesNumber = $"{QueryHandling}.active.number";
+		public const string TotalQueriesNumber = $"{QueryHandling}.total";
+		public const string QueryHandlingDuration = $"{QueryHandling}.duration";
 	}
 
-	public static class ValidateHandling
+	public static class Validator
 	{
 		public const string Validation = $"{ActivitySourceProvider.DefaultSourceName}.validator";
-	}
-
-	public static class EventHandling
-	{
-		public const string Event = $"{ActivitySourceProvider.DefaultSourceName}.event";
-	}
-
-	public static class Service
-	{
-		public const string Name = "service.name";
-		public const string PeerName = "peer.service";
 	}
 }

@@ -7,7 +7,8 @@ namespace CoffeeShop.Shared.OpenTelemetry;
 public class HandlerBehavior<TRequest, TResponse>(
 	IRequestHandler<TRequest, TResponse> outerHandler,
 	IActivityScope activityScope,
-	CommandHandlerMetrics metrics,
+	CommandHandlerMetrics commandMetrics,
+	QueryHandlerMetrics queryMetrics,
 	ILogger<HandlerBehavior<TRequest, TResponse>> logger) : IPipelineBehavior<TRequest, TResponse>
 	where TRequest : notnull, IRequest<TResponse>
 	where TResponse : notnull
@@ -28,8 +29,11 @@ public class HandlerBehavior<TRequest, TResponse>(
 		var queryName = typeof(TRequest).Name;
 		var activityName = $"{queryName}-{handlerName}";
 
-		var tagName = queryName.ToLowerInvariant().EndsWith("command") ? TelemetryTags.Commands.Command : TelemetryTags.QueryHandling.Query;
-		var startingTimestamp = metrics.CommandHandlingStart(handlerName);
+		var isCommand = queryName.ToLowerInvariant().EndsWith("command");
+
+		var tagName = isCommand ? TelemetryTags.Commands.Command : TelemetryTags.Queries.Query;
+
+		var startingTimestamp = isCommand ? commandMetrics.CommandHandlingStart(handlerName) : queryMetrics.QueryHandlingStart(handlerName);
 
 		try
 		{
@@ -42,7 +46,13 @@ public class HandlerBehavior<TRequest, TResponse>(
 		}
 		finally
 		{
-			metrics.CommandHandlingEnd(handlerName, startingTimestamp);
+			if (isCommand) 
+			{
+				commandMetrics.CommandHandlingEnd(handlerName, startingTimestamp);
+			}
+			else {
+				queryMetrics.QueryHandlingEnd(handlerName, startingTimestamp);
+			}
 		}
 	}
 }

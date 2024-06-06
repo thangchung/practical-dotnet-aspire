@@ -32,7 +32,7 @@ internal class PlaceOrderHandler(IPublisher publisher, IItemGateway itemGateway,
 	{
 		ArgumentNullException.ThrowIfNull(placeOrderCommand);
 
-		var itemTypes = new List<ItemType> { ItemType.ESPRESSO };
+		var itemTypes = new List<ItemType> { ItemType.ESPRESSO }; // todo: remove hard-code
 		var items = await itemGateway.GetItemsByType(itemTypes.ToArray());
 		logger.LogInformation("[ProductAPI] Query: {JsonObject}", JsonSerializer.Serialize(items));
 

@@ -1,10 +1,10 @@
 using CounterApi.IntegrationEvents.EventHandlers;
 using CounterApi.Infrastructure.Gateways;
 using CounterApi.Domain;
-using CoffeeShop.Shared.Validation;
 using CoffeeShop.Shared.Endpoint;
 using CoffeeShop.Shared.Exceptions;
 using CoffeeShop.Shared.OpenTelemetry;
+using CoffeeShop.Shared.OpenTelemetry.OtelMassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +39,7 @@ builder.Services.AddEndpoints(typeof(Program).Assembly);
 
 builder.Services.AddSingleton<IActivityScope, ActivityScope>();
 builder.Services.AddSingleton<CommandHandlerMetrics>();
+builder.Services.AddSingleton<QueryHandlerMetrics>();
 builder.Services.AddScoped<IItemGateway, ItemHttpGateway>();
 
 builder.Services.AddMassTransit(x =>
@@ -51,7 +52,12 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(builder.Configuration.GetConnectionString("rabbitmq")!);
-        cfg.ConfigureEndpoints(context);
+
+		cfg.UseSendFilter(typeof(OtelSendFilter<>), context);
+		cfg.UsePublishFilter(typeof(OtelPublishFilter<>), context);
+		cfg.UseConsumeFilter(typeof(OTelConsumeFilter<>), context);
+
+		cfg.ConfigureEndpoints(context);
     });
 });
 

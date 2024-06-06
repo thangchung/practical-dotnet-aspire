@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using CoffeeShop.Shared.OpenTelemetry;
+
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace CoffeeShop.Shared.Validation;
+namespace CoffeeShop.Shared.Exceptions;
 
 public class ValidationExceptionHandler(ILogger<ValidationExceptionHandler> logger) : IExceptionHandler
 {
-	public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, System.Exception exception, CancellationToken cancellationToken)
+	public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
 	{
 		if (exception is not ValidationException validationException)
 		{

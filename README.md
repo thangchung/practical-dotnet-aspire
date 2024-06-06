@@ -19,6 +19,21 @@ If you run on `Windows 11`:
 # http://localhost:5019
 ```
 
+## Generate manifest file (powershell)
+
+```sh
+dotnet run --project app-host\CoffeeShop.AppHost.csproj `
+    -- `
+    --publisher manifest `
+    --output-path ../aspire-manifest.json
+```
+
+## Deploy to Kubernetes
+
+```sh
+dotnet tool install -g aspirate --prerelease
+```
+
 ## Run with Justfile (cross-platform)
 
 ```sh
@@ -33,4 +48,9 @@ On Windows 11 - WSL2 Ubuntu 22 integrated, we can use `Podman Desktop` to replac
 > touch .env
 > make run
 # http://localhost:5019
+```
+
+```sh
+dotnet publish "/workspaces/coffeeshop-aspire/app-host/../product-api/CoffeeShop.ProductApi.csproj" -p:PublishProfile="DefaultContainer" -p:PublishSingleFile="true" 
+-p:PublishTrimmed="false" --self-contained "true" --verbosity "quiet" --nologo -r "linux-x64" -p:ContainerRegistry="k3d-myregistry.localhost:12345" -p:ContainerRepository="product-api" -p:ContainerImageTag="latest"
 ```

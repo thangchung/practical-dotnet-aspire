@@ -1,8 +1,6 @@
-﻿using CoffeeShop.Shared.OpenTelemetry;
+﻿using FluentValidation;
 
-using FluentValidation;
-
-namespace CoffeeShop.Shared.Validation;
+namespace CoffeeShop.Shared.OpenTelemetry;
 
 public record ValidationError(string PropertyName, string ErrorMessage);
 
@@ -36,13 +34,13 @@ public class ValidationBehavior<TRequest, TResponse>(IActivityScope activityScop
 		}
 
 		var queryName = typeof(TRequest).Name;
-		var validatorNames = validators.Aggregate("", (c ,x) => $"{x.GetType().Name}, {c}");
+		var validatorNames = validators.Aggregate("", (c, x) => $"{x.GetType().Name}, {c}");
 		var activityName = $"{queryName}-{validatorNames.Trim().TrimEnd(',')}";
 
 		return await activityScope.Run(
 			activityName,
 				async (_, token) => await next(),
-				new StartActivityOptions { Tags = { { TelemetryTags.ValidateHandling.Validation, queryName } } },
+				new StartActivityOptions { Tags = { { TelemetryTags.Validator.Validation, queryName } } },
 				cancellationToken
 			);
 	}

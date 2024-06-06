@@ -1,6 +1,5 @@
 using CoffeeShop.Shared.Exceptions;
 using CoffeeShop.Shared.OpenTelemetry;
-using CoffeeShop.Shared.Validation;
 
 using FluentValidation;
 
@@ -41,6 +40,7 @@ builder.Services.AddMassTransit(x =>
 
 builder.Services.AddSingleton<IActivityScope, ActivityScope>();
 builder.Services.AddSingleton<CommandHandlerMetrics>();
+builder.Services.AddSingleton<QueryHandlerMetrics>();
 
 var app = builder.Build();
 

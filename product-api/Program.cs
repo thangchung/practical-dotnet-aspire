@@ -1,7 +1,6 @@
 using CoffeeShop.Shared.Endpoint;
 using CoffeeShop.Shared.Exceptions;
 using CoffeeShop.Shared.OpenTelemetry;
-using CoffeeShop.Shared.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +35,7 @@ builder.Services.AddEndpoints(typeof(Program).Assembly);
 
 builder.Services.AddSingleton<IActivityScope, ActivityScope>();
 builder.Services.AddSingleton<CommandHandlerMetrics>();
+builder.Services.AddSingleton<QueryHandlerMetrics>();
 
 var app = builder.Build();
 
