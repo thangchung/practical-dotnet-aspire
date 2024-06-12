@@ -1,4 +1,4 @@
-using CoffeeShop.Shared.Logging;
+﻿using CoffeeShop.Shared.Logging;
 using CoffeeShop.Shared.OpenTelemetry;
 
 using MassTransit.Logging;
@@ -20,8 +20,6 @@ public static class Extensions
 {
 	public static IHostApplicationBuilder AddServiceDefaults(this IHostApplicationBuilder builder)
 	{
-		// builder.Services.AddHttpContextAccessor();
-
 		builder.ConfigureOpenTelemetry();
 
 		builder.AddDefaultHealthChecks();

@@ -5,12 +5,12 @@ using HealthChecks.RabbitMQ;
 using HealthChecks.Redis;
 using HealthChecks.Uris;
 
-namespace CoffeeShop.AppHost;
+namespace CoffeeShop.CounterApi.Tests;
 
 /// <summary>
 /// Ref: https://github.com/davidfowl/WaitForDependenciesAspire/tree/main/WaitForDependencies.Aspire.Hosting
 /// </summary>
-internal static class Extensions
+public static class Extensions
 {
 	public static IResourceBuilder<RabbitMQServerResource> WithHealthCheck(this IResourceBuilder<RabbitMQServerResource> builder)
 	{
