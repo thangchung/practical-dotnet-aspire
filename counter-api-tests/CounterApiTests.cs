@@ -1,7 +1,14 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http.Json;
+using System.Text.Json;
 
 using Asp.Versioning;
 using Asp.Versioning.Http;
+
+using CoffeeShop.Shared.Helpers;
+
+using CounterApi.Domain;
+using CounterApi.Domain.Commands;
+using CounterApi.Domain.Dtos;
 
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -35,5 +42,26 @@ public sealed class CounterApiTests : IClassFixture<CounterApiFixture>
 		var result = JsonSerializer.Deserialize<List<string>>(body, _jsonSerializerOptions);
 
 		Assert.NotNull(result);
+	}
+
+	[Fact]
+	public async Task SubmitOrder()
+	{
+		var json = new PlaceOrderCommand
+		{
+			OrderId = GuidHelper.NewGuid(),
+			CommandType = CommandType.PLACE_ORDER,
+			OrderSource = OrderSource.WEB,
+			Location = Location.ATLANTA,
+			LoyaltyMemberId = GuidHelper.NewGuid(),
+			Timestamp = DateTime.UtcNow,
+			BaristaItems = [new CommandItem { ItemType = ItemType.CAPPUCCINO}],
+			KitchenItems = [new CommandItem { ItemType = ItemType.CAKEPOP }],
+		};
+		var response = await _httpClient.PostAsJsonAsync("/api/v1/orders", json);
+		response.EnsureSuccessStatusCode();
+		var body = await response.Content.ReadAsStringAsync();
+
+		Assert.NotNull(body);
 	}
 }

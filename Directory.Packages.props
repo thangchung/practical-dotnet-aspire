@@ -6,12 +6,11 @@
     <MicrosoftExtensionsVersion>8.4.0</MicrosoftExtensionsVersion>
     <EfVersion>8.0.4</EfVersion>
     <AspireVersion>8.0.1</AspireVersion>
+		<AspirantVersion>0.0.3</AspirantVersion>
+		<HealthCheckVersion>8.0.1</HealthCheckVersion>
+		<AspVersioningVersion>8.1.0</AspVersioningVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Asp.Versioning.Http" Version="8.1.0" />
-    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-    <PackageVersion Include="Aspirant.Hosting" Version="0.0.3" />
-    <PackageVersion Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0-beta.4" />
     <PackageVersion Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.6" />
@@ -19,6 +18,9 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfVersion)" PrivateAssets="all" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfVersion)" />
     <PackageVersion Include="Microsoft.OpenApi" Version="1.6.10" />
+		<PackageVersion Include="Asp.Versioning.Http" Version="$(AspVersioningVersion)" />
+		<PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="$(AspVersioningVersion)" />
+		<PackageVersion Include="Asp.Versioning.Http.Client" Version="$(AspVersioningVersion)" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="MediatR" Version="12.2.0" />
@@ -39,6 +41,9 @@
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="$(AspireVersion)" />
     <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="$(AspireVersion)" />
     <PackageVersion Include="Aspire.Hosting.Redis" Version="$(AspireVersion)" />
+		<PackageVersion Include="Aspirant.Hosting" Version="$(AspirantVersion)" />
+		<PackageVersion Include="Aspirant.Hosting.Yarp" Version="$(AspirantVersion)" />
+		<PackageVersion Include="Fredi.Aspire.Hosting.WireMock" Version="0.0.1" />
     <!-- Aspire Custom Extensions -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="$(MicrosoftExtensionsVersion)" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="$(AspireVersion)" />
@@ -48,14 +53,14 @@
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.8.1" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.8.0" />
     <PackageVersion Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.3.0-beta.2" />
-    <PackageVersion Include="Aspirant.Hosting.Yarp" Version="0.0.3" />
+		<PackageVersion Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.2.0-beta.4" />
   </ItemGroup>
   <ItemGroup>
     <!-- Healthchecks -->
-    <PackageVersion Include="AspNetCore.HealthChecks.Uris" Version="8.0.1" />
-    <PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.1" />
-    <PackageVersion Include="AspNetCore.HealthChecks.Rabbitmq" Version="8.0.1" />
-    <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="8.0.1" />
+    <PackageVersion Include="AspNetCore.HealthChecks.Uris" Version="$(HealthCheckVersion)" />
+    <PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="$(HealthCheckVersion)" />
+    <PackageVersion Include="AspNetCore.HealthChecks.Rabbitmq" Version="$(HealthCheckVersion)" />
+    <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="$(HealthCheckVersion)" />
   </ItemGroup>
   <ItemGroup>
     <!-- Testing -->
@@ -63,6 +68,5 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageVersion Include="xunit" Version="2.5.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3" />
-    <PackageVersion Include="Asp.Versioning.Http.Client" Version="8.1.0" />
   </ItemGroup>
 </Project>
