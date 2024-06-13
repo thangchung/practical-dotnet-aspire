@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShop.Shared", "shared
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShop.OrderSummary", "order-summary\CoffeeShop.OrderSummary.csproj", "{FE457D2C-ABB3-464C-8C6D-16D09C77FFB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShop.CounterApi.Tests", "counter-api-tests\CoffeeShop.CounterApi.Tests.csproj", "{B5CC90F9-91AA-4378-9992-F504585CA2F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeShop.CounterApi.IntegrationTests", "counter-api-tests\CoffeeShop.CounterApi.IntegrationTests.csproj", "{5DB71E8E-BF52-4918-895D-CD3BB373D6A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +65,10 @@ Global
 		{FE457D2C-ABB3-464C-8C6D-16D09C77FFB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE457D2C-ABB3-464C-8C6D-16D09C77FFB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE457D2C-ABB3-464C-8C6D-16D09C77FFB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B5CC90F9-91AA-4378-9992-F504585CA2F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5CC90F9-91AA-4378-9992-F504585CA2F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5CC90F9-91AA-4378-9992-F504585CA2F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5CC90F9-91AA-4378-9992-F504585CA2F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DB71E8E-BF52-4918-895D-CD3BB373D6A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DB71E8E-BF52-4918-895D-CD3BB373D6A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DB71E8E-BF52-4918-895D-CD3BB373D6A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DB71E8E-BF52-4918-895D-CD3BB373D6A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

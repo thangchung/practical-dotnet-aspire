@@ -5,6 +5,7 @@ using CoffeeShop.Shared.Endpoint;
 using CoffeeShop.Shared.Exceptions;
 using CoffeeShop.Shared.OpenTelemetry;
 using CoffeeShop.Shared.OpenTelemetry.OtelMassTransit;
+using System.Diagnostics.CodeAnalysis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,4 +87,5 @@ app.MapEndpoints(versionedGroup);
 
 app.Run();
 
+[ExcludeFromCodeCoverage]
 public partial class Program;

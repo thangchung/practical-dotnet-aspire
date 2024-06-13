@@ -5,7 +5,7 @@ using HealthChecks.RabbitMQ;
 using HealthChecks.Redis;
 using HealthChecks.Uris;
 
-namespace CoffeeShop.CounterApi.Tests;
+namespace CoffeeShop.CounterApi.IntegrationTests;
 
 /// <summary>
 /// Ref: https://github.com/davidfowl/WaitForDependenciesAspire/tree/main/WaitForDependencies.Aspire.Hosting

@@ -1,13 +1,20 @@
 using CounterApi.Domain;
+using CounterApi.IntegrationEvents.EventHandlers;
+
+using MassTransit;
 
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 using WireMock.Client.Builders;
+
 using Xunit;
 
-namespace CoffeeShop.CounterApi.Tests;
+namespace CoffeeShop.CounterApi.IntegrationTests;
 
 public sealed class CounterApiFixture : WebApplicationFactory<Program>, IAsyncLifetime
 {
@@ -20,16 +27,17 @@ public sealed class CounterApiFixture : WebApplicationFactory<Program>, IAsyncLi
 	private string _rabbitMqConnectionString;
 
 	public IResourceBuilder<WireMockNetResource> ProductApi { get; private set; }
-	private string _productApiEndpoint;
 
 	public CounterApiFixture()
 	{
 		var options = new DistributedApplicationOptions { AssemblyName = typeof(CounterApiFixture).Assembly.FullName, DisableDashboard = true };
 		var appBuilder = DistributedApplication.CreateBuilder(options);
+
 		Postgres = appBuilder.AddPostgres("postgresQL");
 		RabbitMq = appBuilder.AddRabbitMQ("rabbitmq").WithHealthCheck();
 		ProductApi = appBuilder.AddWireMockNet("product-api")
-			.WithApiMappingBuilder(ProductApiMock.Build).WithHealthCheck();
+			.WithApiMappingBuilder(ProductApiMock.Build);
+
 		_app = appBuilder.Build();
 	}
 
@@ -41,21 +49,38 @@ public sealed class CounterApiFixture : WebApplicationFactory<Program>, IAsyncLi
 			{
 				{ $"ConnectionStrings:{Postgres.Resource.Name}", _postgresConnectionString },
 				{ $"ConnectionStrings:{RabbitMq.Resource.Name}", _rabbitMqConnectionString },
-				{ "ProductApiUrl", _productApiEndpoint }
+				{ "ProductApiUrl", ProductApi.GetEndpoint("http").Url }
 			}!);
+		})
+		.ConfigureWebHost(builder =>
+		{
+			builder.UseTestServer()
+				.ConfigureServices(services =>
+				{
+					services.RemoveAll<IHostedService>();
+				})
+				.ConfigureTestServices(services =>
+				{
+					services.AddMassTransitTestHarness(x =>
+					{
+						x.AddConsumer<BaristaOrderUpdatedConsumer>();
+						x.AddConsumer<KitchenOrderUpdatedConsumer>();
+					});
+				});
 		});
+
 		return base.CreateHost(builder);
 	}
 
 	public async Task InitializeAsync()
 	{
 		await _app.StartAsync();
+
 		_postgresConnectionString = await Postgres.Resource.GetConnectionStringAsync();
 		_rabbitMqConnectionString = await RabbitMq.Resource.ConnectionStringExpression.GetValueAsync(default);
-		_productApiEndpoint = ProductApi.Resource.PrimaryEndpoint.Url;
 
 		// if don't waiting then WireMock will be failed
-		await Task.Delay(TimeSpan.FromSeconds(2));
+		await Task.Delay(TimeSpan.FromSeconds(5));
 	}
 
 	public new async Task DisposeAsync()
