@@ -1,20 +1,47 @@
+using Aspirant.Hosting;
+
+using CoffeeShop.AppHost;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
-var rabbitmq = builder.AddRabbitMQContainer("rabbitmq");
+var postgresQL = builder.AddPostgres("postgresQL").WithHealthCheck().WithPgAdmin();
+var postgres = postgresQL.AddDatabase("postgres");
 
-var productApi = builder.AddProject<Projects.product_api>("productapi")
-    .WithReplicas(2);
+var redis = builder.AddRedis("redis").WithHealthCheck();
+var rabbitmq = builder.AddRabbitMQ("rabbitmq").WithHealthCheck().WithManagementPlugin();
 
-builder.AddProject<Projects.counter_api>("counterapi")
-    .WithReference(productApi)
-    .WithReference(rabbitmq);
+var productApi = builder.AddProject<Projects.CoffeeShop_ProductApi>("product-api")
+	.WithSwaggerUI();
 
-builder.AddProject<Projects.barista_api>("baristaapi")
-    .WithReference(rabbitmq)
-    .WithReplicas(2);
+var counterApi = builder.AddProject<Projects.CoffeeShop_CounterApi>("counter-api")
+	.WithReference(productApi)
+	.WithReference(rabbitmq)
+	.WaitFor(rabbitmq)
+	.WithSwaggerUI();
 
-builder.AddProject<Projects.kitchen_api>("kitchenapi")
-    .WithReference(rabbitmq)
-    .WithReplicas(2);
+builder.AddProject<Projects.CoffeeShop_BaristaApi>("barista-api")
+	.WithReference(rabbitmq)
+	.WaitFor(rabbitmq);
+
+builder.AddProject<Projects.CoffeeShop_KitchenApi>("kitchen-api")
+	.WithReference(rabbitmq)
+	.WaitFor(rabbitmq);
+
+var orderSummaryApi = builder.AddProject<Projects.CoffeeShop_OrderSummary>("order-summary")
+	.WithReference(postgres)
+	.WithReference(rabbitmq)
+	.WaitFor(postgres)
+	.WaitFor(rabbitmq)
+	.WithSwaggerUI();
+
+var isHttps = builder.Configuration["DOTNET_LAUNCH_PROFILE"] == "https";
+var ingressPort = int.TryParse(builder.Configuration["Ingress:Port"], out var port) ? port : (int?)null;
+
+builder.AddYarp("ingress")
+	.WithEndpoint(scheme: isHttps ? "https" : "http", port: ingressPort)
+	.WithReference(productApi)
+	.WithReference(counterApi)
+	.WithReference(orderSummaryApi)
+	.LoadFromConfiguration("ReverseProxy");
 
 builder.Build().Run();

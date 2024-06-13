@@ -1,7 +1,5 @@
 using CoffeeShop.MessageContracts;
 
-using MassTransit;
-
 namespace CounterApi.IntegrationEvents.EventHandlers;
 
 internal class BaristaOrderUpdatedConsumer(IPublishEndpoint publisher, ILogger<BaristaOrderUpdatedConsumer> logger) 

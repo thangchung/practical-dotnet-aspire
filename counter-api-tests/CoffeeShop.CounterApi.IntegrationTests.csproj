@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+		
+		<IsPublishable>false</IsPublishable>
+    <IsPackable>false</IsPackable>
+		<IsAspireHost>true</IsAspireHost>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Fredi.Aspire.Hosting.WireMock" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+		<PackageReference Include="ReportGenerator" />
+		<PackageReference Include="Asp.Versioning.Http.Client" />
+		<PackageReference Include="MSTest" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aspire.Hosting.AppHost" />
+		<PackageReference Include="Aspire.Hosting.PostgreSQL" />
+		<PackageReference Include="Aspire.Hosting.Redis" />
+		<PackageReference Include="Aspire.Hosting.RabbitMQ" />
+		<PackageReference Include="Aspirant.Hosting" />
+		<PackageReference Include="Aspirant.Hosting.Testing" />
+		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" />
+		<PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" />
+		<PackageReference Include="AspNetCore.HealthChecks.Redis" />
+		<PackageReference Include="AspNetCore.HealthChecks.Uris" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\counter-api\CoffeeShop.CounterApi.csproj" IsAspireProjectResource="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="TestResults\" />
+	</ItemGroup>
+
+</Project>

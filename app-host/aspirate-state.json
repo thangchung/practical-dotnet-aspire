@@ -1,0 +1,48 @@
+{
+  "projectPath": ".",
+  "namespace": "coffeeshop",
+  "containerImageTags": [
+    "latest"
+  ],
+  "imagePullPolicy": "IfNotPresent",
+  "containerBuilder": "docker",
+  "kubeContext": "k3d-k3s-default",
+  "outputFormat": "kustomize",
+  "privateRegistryEmail": "aspir8@aka.ms",
+  "includeDashboard": true,
+  "useCustomNamespace": true,
+  "secrets": {
+    "salt": "EBQWuonzWR6ciGDa",
+    "hash": "qC2Cj\u002Bdvmez\u002BREtX9lWAaHcX1/fCDhy71t/5URBY23k=",
+    "secrets": {
+      "postgresQL-password": {
+        "value": "EBQWuonzWR6ciGDaz\u002BVw/NaSBujWMsclpH2c9tNxYjYh7xom2bblDrRVn6hfrPF9ja0="
+      },
+      "rabbitmq-password": {
+        "value": "EBQWuonzWR6ciGDa\u002BxNAFVcRzLbDrscmCJ0eZNA3eQ90zD4G17fxPph8qItzveRZtsU="
+      },
+      "postgresQL": {
+        "POSTGRES_PASSWORD": "EBQWuonzWR6ciGDaz\u002BVw/NaSBujWMsclpH2c9tNxYjYh7xom2bblDrRVn6hfrPF9ja0="
+      },
+      "postgres": {},
+      "redis": {},
+      "rabbitmq": {},
+      "product-api": {},
+      "counter-api": {
+        "ConnectionStrings__rabbitmq": "EBQWuonzWR6ciGDatn7KBVD9q6vYrfaZnAJGPPArfjItrHQuy6DMA8lTjJB8uMRfuv0bfVAkppcrnPSChcBdetazdRv7YX4VaUHLGM4="
+      },
+      "barista-api": {
+        "ConnectionStrings__rabbitmq": "EBQWuonzWR6ciGDatn7KBVD9q6vYrfaZnAJGPPArfjItrHQuy6DMA8lTjJB8uMRfuv0bfVAkppcrnPSChcBdetazdRv7YX4VaUHLGM4="
+      },
+      "kitchen-api": {
+        "ConnectionStrings__rabbitmq": "EBQWuonzWR6ciGDatn7KBVD9q6vYrfaZnAJGPPArfjItrHQuy6DMA8lTjJB8uMRfuv0bfVAkppcrnPSChcBdetazdRv7YX4VaUHLGM4="
+      },
+      "order-summary": {
+        "ConnectionStrings__postgres": "EBQWuonzWR6ciGDaqxc3s7Lbk\u002BUObOfAKkEQtNkpfDYq8zQ6yqLNEoBDsd1htPlOyKFdACt0nbEjrPyMi\u002BYxSsuhYx7gcGBfAxWOXIviTVdgDiy2cWiIyi4J50NQtIXa9ReqyHbyGrZ0M4gBho0YXiPpfe8gyiPw5A==",
+        "ConnectionStrings__rabbitmq": "EBQWuonzWR6ciGDatn7KBVD9q6vYrfaZnAJGPPArfjItrHQuy6DMA8lTjJB8uMRfuv0bfVAkppcrnPSChcBdetazdRv7YX4VaUHLGM4="
+      }
+    }
+  },
+  "processAllComponents": true,
+  "isRunning": true
+}

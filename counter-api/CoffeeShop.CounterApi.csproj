@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>CounterApi</RootNamespace>
+		<ContainerRepository>counter-api</ContainerRepository>
+		<ContainerImageTag>latest</ContainerImageTag>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
+		<PackageReference Include="Asp.Versioning.Http" />
+		<PackageReference Include="Swashbuckle.AspNetCore" />
+		<PackageReference Include="MediatR" />
+		<PackageReference Include="FluentValidation.AspNetCore" />
+		<PackageReference Include="MassTransit" />
+		<PackageReference Include="MassTransit.RabbitMQ" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\shared\CoffeeShop.Shared\CoffeeShop.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,108 @@
+services:
+  postgresQL:
+    container_name: "postgresQL"
+    image: "docker.io/library/postgres:16.2"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "2lUmFKentK!fuyjdGIK4ka"
+    ports:
+    - target: 5432
+      published: 5432
+    restart: unless-stopped
+  redis:
+    container_name: "redis"
+    image: "docker.io/library/redis:7.2"
+    ports:
+    - target: 6379
+      published: 6379
+    restart: unless-stopped
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: "docker.io/library/rabbitmq:3.13-management"
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "m7YZc!8nqV6bmTb8VKM318"
+    ports:
+    - target: 5672
+      published: 5672
+    - target: 15672
+      published: 15672
+    restart: unless-stopped
+  product-api:
+    container_name: "product-api"
+    image: "product-api:latest"
+    environment:
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+    ports:
+    - target: 8080
+      published: 10000
+    - target: 8443
+      published: 10001
+    restart: unless-stopped
+  counter-api:
+    container_name: "counter-api"
+    image: "counter-api:latest"
+    environment:
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      services__product-api__http__0: "http://product-api:8080"
+      ConnectionStrings__rabbitmq: "amqp://guest:m7YZc!8nqV6bmTb8VKM318@rabbitmq:5672"
+    ports:
+    - target: 8080
+      published: 10002
+    - target: 8443
+      published: 10003
+    restart: unless-stopped
+  barista-api:
+    container_name: "barista-api"
+    image: "barista-api:latest"
+    environment:
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      ConnectionStrings__rabbitmq: "amqp://guest:m7YZc!8nqV6bmTb8VKM318@rabbitmq:5672"
+    ports:
+    - target: 8080
+      published: 10004
+    - target: 8443
+      published: 10005
+    restart: unless-stopped
+  kitchen-api:
+    container_name: "kitchen-api"
+    image: "kitchen-api:latest"
+    environment:
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      ConnectionStrings__rabbitmq: "amqp://guest:m7YZc!8nqV6bmTb8VKM318@rabbitmq:5672"
+    ports:
+    - target: 8080
+      published: 10006
+    - target: 8443
+      published: 10007
+    restart: unless-stopped
+  order-summary:
+    container_name: "order-summary"
+    image: "order-summary:latest"
+    environment:
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      ConnectionStrings__postgres: "Host=postgresQL;Port=5432;Username=postgres;Password=2lUmFKentK!fuyjdGIK4ka;Database=postgres"
+      ConnectionStrings__rabbitmq: "amqp://guest:m7YZc!8nqV6bmTb8VKM318@rabbitmq:5672"
+    ports:
+    - target: 8080
+      published: 10008
+    - target: 8443
+      published: 10009
+    restart: unless-stopped
