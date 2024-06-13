@@ -1,8 +1,10 @@
 name: .NET Coverage
 
 on:
-  workflow_dispatch:
-    branches: [ main ]
+  push:
+    branches:
+      - main
+      - feat/*
 
 jobs:
   build:
