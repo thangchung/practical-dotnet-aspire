@@ -2,6 +2,8 @@
 
 The coffeeshop apps on .NET Aspire
 
+![Counter API-Code Coverage](https://img.shields.io/badge/Code%20Coverage-73%25-yellow?style=flat)
+
 ## Prerequisites
 
 If you run on `Windows 11`: 
