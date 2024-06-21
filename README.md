@@ -18,9 +18,9 @@ The coffeeshop apps on .NET Aspire
 - [x] Mapperly for generating object mappings
 - [x] API Versioning
 - [x] Integration test with .NET Aspire and Wiremock.NET
-- [] Response Caching - Distributed Caching with Redis
-- [] Dapr integration
-- [] JWT & Authentication with Keycloak
+- [ ] Response Caching - Distributed Caching with Redis
+- [ ] Dapr integration
+- [ ] JWT & Authentication with Keycloak
 
 ## Prerequisites
 
