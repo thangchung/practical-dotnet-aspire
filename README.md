@@ -4,6 +4,24 @@ The coffeeshop apps on .NET Aspire
 
 ![Counter API-Code Coverage](https://img.shields.io/badge/Code%20Coverage-73%25-yellow?style=flat)
 
+## Introduction
+
+> Notice: This is just a demo of how can we build and deploy the microservices approach. In the reality, the boundary should be defined by bounded-context concepts of Domai-driven Design, and totally based on the business domain, and might not be so fine-grained services like this demo, so you use it with care.
+
+- [x] Built on .NET 8.0 LTS
+- [x] Microservices architectural style
+- [x] Follows Vertical Sliding principles
+- [x] Domain Driven Design building blocks
+- [x] CQRS with MediatR and Fluent Validations
+- [x] Shift-left Observability with .NET Aspire (OpenTelemetry built-in)
+- [x] OpenAPI supports
+- [x] Mapperly for generating object mappings
+- [x] API Versioning
+- [x] Integration test with .NET Aspire and Wiremock.NET
+- [] Response Caching - Distributed Caching with Redis
+- [] Dapr integration
+- [] JWT & Authentication with Keycloak
+
 ## Prerequisites
 
 If you run on `Windows 11`: 
@@ -25,7 +43,6 @@ If you run on `Windows 11`:
 
 ```sh
 dotnet run --project app-host\CoffeeShop.AppHost.csproj `
-    -- `
     --publisher manifest `
     --output-path ../aspire-manifest.json
 ```
