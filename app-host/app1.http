@@ -40,5 +40,7 @@ content-type: application/json
 
 ###
 @orderId = 8cf20000-8d12-00ff-acd0-08dc7cc27ccd
+
+###
 GET https://{{hostname}}/audit/api/v1/summary?orderId={{orderId}}
 content-type: application/json

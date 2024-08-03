@@ -5,7 +5,7 @@
 		<AspnetVersion>8.0.5</AspnetVersion>
 		<MicrosoftExtensionsVersion>8.4.0</MicrosoftExtensionsVersion>
 		<EfVersion>8.0.4</EfVersion>
-		<AspireVersion>8.0.1</AspireVersion>
+		<AspireVersion>8.1.0</AspireVersion>
 		<AspirantVersion>0.0.4</AspirantVersion>
 		<HealthCheckVersion>8.0.1</HealthCheckVersion>
 		<AspVersioningVersion>8.1.0</AspVersioningVersion>
