@@ -11,14 +11,6 @@ using CounterApi.Domain;
 using CounterApi.Domain.Commands;
 using CounterApi.IntegrationEvents.EventHandlers;
 
-using MassTransit.Testing;
-
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
-
-using Xunit;
-
 namespace CoffeeShop.CounterApi.IntegrationTests;
 
 internal class RetryHandler : DelegatingHandler

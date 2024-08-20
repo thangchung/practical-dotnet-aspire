@@ -3,16 +3,10 @@ using CounterApi.IntegrationEvents.EventHandlers;
 
 using MassTransit;
 
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-
-using WireMock.Client.Builders;
-
-using Xunit;
 
 namespace CoffeeShop.CounterApi.IntegrationTests;
 
@@ -26,7 +20,7 @@ public sealed class CounterApiFixture : WebApplicationFactory<Program>, IAsyncLi
 	public IResourceBuilder<RabbitMQServerResource> RabbitMq { get; private set; }
 	private string _rabbitMqConnectionString;
 
-	public IResourceBuilder<WireMockNetResource> ProductApi { get; private set; }
+	public IResourceBuilder<WireMockServerResource> ProductApi { get; private set; }
 
 	public CounterApiFixture()
 	{
@@ -34,9 +28,10 @@ public sealed class CounterApiFixture : WebApplicationFactory<Program>, IAsyncLi
 		var appBuilder = DistributedApplication.CreateBuilder(options);
 
 		Postgres = appBuilder.AddPostgres("postgresQL");
-		RabbitMq = appBuilder.AddRabbitMQ("rabbitmq").WithHealthCheck();
-		ProductApi = appBuilder.AddWireMockNet("product-api")
-			.WithApiMappingBuilder(ProductApiMock.Build);
+		RabbitMq = appBuilder.AddRabbitMQ("rabbitmq");
+		
+		ProductApi = appBuilder.AddWireMock("product-api", WireMockServerArguments.DefaultPort)
+			.WithApiMappingBuilder(ProductApiMock.BuildAsync);
 
 		_app = appBuilder.Build();
 	}
@@ -72,16 +67,13 @@ public sealed class CounterApiFixture : WebApplicationFactory<Program>, IAsyncLi
 		return base.CreateHost(builder);
 	}
 
-	public async Task InitializeAsync()
-	{
-		await _app.StartAsync();
+    public async Task InitializeAsync()
+    {
+        await _app.StartAsync();
 
-		_postgresConnectionString = await Postgres.Resource.GetConnectionStringAsync();
-		_rabbitMqConnectionString = await RabbitMq.Resource.ConnectionStringExpression.GetValueAsync(default);
-
-		// if don't waiting then WireMock will be failed
-		await Task.Delay(TimeSpan.FromSeconds(5));
-	}
+        _postgresConnectionString = await Postgres.Resource.GetConnectionStringAsync() ?? throw new InvalidOperationException("Postgres connection string is null");
+        _rabbitMqConnectionString = await RabbitMq.Resource.ConnectionStringExpression.GetValueAsync(default) ?? throw new InvalidOperationException("RabbitMQ connection string is null");
+    }
 
 	public new async Task DisposeAsync()
 	{
@@ -100,25 +92,25 @@ public sealed class CounterApiFixture : WebApplicationFactory<Program>, IAsyncLi
 
 internal class ProductApiMock
 {
-	public static async Task Build(AdminApiMappingBuilder builder)
+	public static async Task BuildAsync(AdminApiMappingBuilder builder)
 	{
-		var itemTypes = new List<ItemTypeDto> {
-					new() {
-						ItemType = ItemType.CAKEPOP
-					},
-					new() {
-						ItemType = ItemType.CAPPUCCINO
-					}};
-
-		builder.Given(builder => builder
+		builder.Given(b => b
 			.WithRequest(request => request
 				.UsingGet()
 				.WithPath("/api/v1/item-types")
 			)
 			.WithResponse(response => response
-				.WithBodyAsJson(itemTypes)
+				.WithHeaders(h => h.Add("Content-Type", "application/json"))
+				.WithBodyAsJson(() => new List<ItemTypeDto> {
+					new() {
+						ItemType = ItemType.CAKEPOP
+					},
+					new() {
+						ItemType = ItemType.CAPPUCCINO
+					}
+				}.ToArray()
 			)
-		);
+		));
 
 		await builder.BuildAndPostAsync();
 	}
