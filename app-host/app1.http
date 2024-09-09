@@ -31,12 +31,14 @@ GET https://{{hostname}}/c/api/v1/fulfillment-orders
 content-type: application/json
 
 ###
-GET https://{{hostname}}/p/api/v1/item-types
+GET http://{{hostname}}/p/api/v1/item-types
 content-type: application/json
+trace-id: "ff71c44ca162820de23468bb8c1b024b"
 
 ###
 GET https://{{hostname}}/p/api/v1/items-by-types/1,2,3
 content-type: application/json
+trace-id: "ff71c44ca162820de23468bb8c1b024b"
 
 ###
 @orderId = 8cf20000-8d12-00ff-acd0-08dc7cc27ccd

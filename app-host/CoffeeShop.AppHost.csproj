@@ -9,14 +9,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Aspire.Hosting" />
 		<PackageReference Include="Aspire.Hosting.AppHost" />
 		<PackageReference Include="Aspire.Hosting.PostgreSQL" />
 		<PackageReference Include="Aspire.Hosting.Redis" />
 		<PackageReference Include="Aspire.Hosting.RabbitMQ" />
 		<PackageReference Include="Aspirant.Hosting" />
 		<PackageReference Include="Aspirant.Hosting.Yarp" />
-		<PackageReference Include="Yarp.ReverseProxy" />
+		<!--<PackageReference Include="Yarp.ReverseProxy" />-->
 	</ItemGroup>
 
 	<ItemGroup>
@@ -32,6 +31,7 @@
 		<ProjectReference Include="..\counter-api\CoffeeShop.CounterApi.csproj" />
 		<ProjectReference Include="..\barista-api\CoffeeShop.BaristaApi.csproj" />
 		<ProjectReference Include="..\kitchen-api\CoffeeShop.KitchenApi.csproj" />
+		<ProjectReference Include="..\yarp\CoffeeShop.Yarp\CoffeeShop.Yarp.csproj" />
 	</ItemGroup>
 
 </Project>

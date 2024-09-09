@@ -24,6 +24,8 @@ public static class Extensions
 
 		builder.AddDefaultHealthChecks();
 
+		builder.Services.AddHttpContextAccessor();
+
 		builder.Services.AddServiceDiscovery();
 
 		builder.Services.ConfigureHttpClientDefaults(http =>
@@ -62,10 +64,11 @@ public static class Extensions
 			.WithTracing(tracing =>
 			{
 				tracing.AddAspNetCoreInstrumentation()
-					   .AddHttpClientInstrumentation()
-					   .AddSource(DiagnosticHeaders.DefaultListenerName)
-					   .AddSource("Marten")
-					   .AddSource(ActivitySourceProvider.DefaultSourceName);
+						.AddHttpClientInstrumentation()
+						.AddSource(DiagnosticHeaders.DefaultListenerName)
+						.AddSource("Marten")
+						.AddSource(ActivitySourceProvider.DefaultSourceName)
+						.AddSource("Yarp.ReverseProxy");
 			});
 
 		builder.AddOpenTelemetryExporters();

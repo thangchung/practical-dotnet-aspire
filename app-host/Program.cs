@@ -34,14 +34,22 @@ var orderSummaryApi = builder.AddProject<Projects.CoffeeShop_OrderSummary>("orde
 	.WaitFor(rabbitmq)
 	.WithSwaggerUI();
 
-var isHttps = builder.Configuration["DOTNET_LAUNCH_PROFILE"] == "https";
-var ingressPort = int.TryParse(builder.Configuration["Ingress:Port"], out var port) ? port : (int?)null;
+//var isHttps = builder.Configuration["DOTNET_LAUNCH_PROFILE"] == "https";
+//var ingressPort = int.TryParse(builder.Configuration["Ingress:Port"], out var port) ? port : (int?)null;
 
-builder.AddYarp("ingress")
-	.WithEndpoint(scheme: isHttps ? "https" : "http", port: ingressPort)
+//builder.AddYarp("ingress")
+//	.WithEndpoint(scheme: isHttps ? "https" : "http", port: ingressPort)
+//	.WithReference(productApi)
+//	.WithReference(counterApi)
+//	.WithReference(orderSummaryApi)
+//	.LoadFromConfiguration("ReverseProxy");
+
+builder.AddProject<Projects.CoffeeShop_Yarp>("yarp")
 	.WithReference(productApi)
 	.WithReference(counterApi)
 	.WithReference(orderSummaryApi)
-	.LoadFromConfiguration("ReverseProxy");
+	.WaitFor(productApi)
+	.WaitFor(counterApi)
+	.WaitFor(orderSummaryApi);
 
 builder.Build().Run();
