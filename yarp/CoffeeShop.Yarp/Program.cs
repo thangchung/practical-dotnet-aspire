@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 using Yarp.ReverseProxy.Transforms;
 
@@ -29,10 +30,9 @@ builder.Services.AddReverseProxy()
 						{
 							if (context.Request.Headers.Remove("traceparent"))
 							{
-								var p = traceParent.SelectMany(x => x!.Split('-')).ToArray();
-
+								var traceParentReplaced = Regex.Replace(traceParent, "-.*?-", $"-${traceIdFromProxy}-");
 								Activity.Current = new Activity("Yarp.ReverseProxy")
-									.SetParentId($"{p[0]}-{traceIdFromProxy}-{p[2]}-{p[3]}")
+									.SetParentId(traceParentReplaced)
 									.Start();
 							}
 						}
