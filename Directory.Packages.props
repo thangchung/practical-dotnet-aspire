@@ -5,7 +5,7 @@
 		<AspnetVersion>8.0.6</AspnetVersion>
 		<MicrosoftExtensionsVersion>8.4.0</MicrosoftExtensionsVersion>
 		<EfVersion>8.0.8</EfVersion>
-		<AspireVersion>8.2.0</AspireVersion>
+		<AspireVersion>8.2.1</AspireVersion>
 		<OpenTelemetryVersion>1.9.0</OpenTelemetryVersion>
 		<AspirantVersion>0.0.4</AspirantVersion>
 		<HealthCheckVersion>8.0.1</HealthCheckVersion>
@@ -32,7 +32,7 @@
 		<PackageVersion Include="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
 		<PackageVersion Include="Marten.AspNetCore" Version="$(MartenVersion)" />
 		<PackageVersion Include="Marten" Version="$(MartenVersion)" />
-		<PackageVersion Include="Yarp.ReverseProxy" Version="2.1.0" />
+		<PackageVersion Include="Yarp.ReverseProxy" Version="2.2.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<!-- Asp Versioning -->

@@ -14,8 +14,7 @@
 		<PackageReference Include="Aspire.Hosting.Redis" />
 		<PackageReference Include="Aspire.Hosting.RabbitMQ" />
 		<PackageReference Include="Aspirant.Hosting" />
-		<PackageReference Include="Aspirant.Hosting.Yarp" />
-		<!--<PackageReference Include="Yarp.ReverseProxy" />-->
+		<PackageReference Include="Yarp.ReverseProxy" />
 	</ItemGroup>
 
 	<ItemGroup>

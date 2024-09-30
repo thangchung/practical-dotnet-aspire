@@ -29,9 +29,6 @@ internal class ItemTypesQueryHandler(IHttpContextAccessor httpContextAccessor, I
 	{
 		ArgumentNullException.ThrowIfNull(request);
 
-		// todo: only for debugging purposes, remove later
-		var traceId = Activity.Current?.Id ?? httpContextAccessor?.HttpContext?.TraceIdentifier;
-
 		var results = new List<ItemTypeDto>
 		{
             // beverages
