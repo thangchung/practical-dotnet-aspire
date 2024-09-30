@@ -6,5 +6,6 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>preview</LangVersion>
 		<NoWarn>$(NoWarn);NU1507</NoWarn>
+		<GarbageCollectionAdaptationMode>1</GarbageCollectionAdaptationMode>
 	</PropertyGroup>
 </Project>

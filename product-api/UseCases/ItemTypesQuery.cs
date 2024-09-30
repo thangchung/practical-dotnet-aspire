@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 using CoffeeShop.Shared.Endpoint;
 
 using ProductApi.Domain;
@@ -21,7 +23,7 @@ internal class ItemTypesQueryValidator : AbstractValidator<ItemTypesQuery>
 {
 }
 
-internal class ItemTypesQueryHandler(ILogger<ItemTypesQueryHandler> logger) : IRequestHandler<ItemTypesQuery, IEnumerable<ItemTypeDto>>
+internal class ItemTypesQueryHandler(IHttpContextAccessor httpContextAccessor, ILogger<ItemTypesQueryHandler> logger) : IRequestHandler<ItemTypesQuery, IEnumerable<ItemTypeDto>>
 {
 	public Task<IEnumerable<ItemTypeDto>> Handle(ItemTypesQuery request, CancellationToken cancellationToken)
 	{
