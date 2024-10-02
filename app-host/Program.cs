@@ -1,14 +1,23 @@
-using Aspirant.Hosting;
-
 using CoffeeShop.AppHost;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var postgresQL = builder.AddPostgres("postgresQL").WithHealthCheck().WithPgAdmin();
+var postgresQL = builder.AddPostgres("postgresQL")
+						.WithLifetime(ContainerLifetime.Persistent)
+						.WithHealthCheck()
+						.WithPgAdmin();
 var postgres = postgresQL.AddDatabase("postgres");
 
-var redis = builder.AddRedis("redis").WithHealthCheck();
-var rabbitmq = builder.AddRabbitMQ("rabbitmq").WithHealthCheck().WithManagementPlugin();
+var redis = builder.AddRedis("redis")
+					// .WithContainerName("redis") // use an existing container
+					.WithLifetime(ContainerLifetime.Persistent)
+					.WithHealthCheck()
+					.WithRedisCommander();
+
+var rabbitmq = builder.AddRabbitMQ("rabbitmq")
+						.WithLifetime(ContainerLifetime.Persistent)	
+						.WithHealthCheck()
+						.WithManagementPlugin();
 
 var productApi = builder.AddProject<Projects.CoffeeShop_ProductApi>("product-api")
 						.WithSwaggerUI();

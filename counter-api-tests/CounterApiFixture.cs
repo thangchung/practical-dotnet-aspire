@@ -1,3 +1,5 @@
+using Aspire.Hosting.Testing;
+
 using CounterApi.Domain;
 using CounterApi.IntegrationEvents.EventHandlers;
 
