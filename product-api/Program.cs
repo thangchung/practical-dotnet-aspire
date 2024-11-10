@@ -1,6 +1,15 @@
+// dotnet ef migrations add InitDb -c ProductDbContext -o Infrastructure/Migrations
+
+using CoffeeShop.Shared.EF;
 using CoffeeShop.Shared.Endpoint;
 using CoffeeShop.Shared.Exceptions;
 using CoffeeShop.Shared.OpenTelemetry;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.AI;
+
+using ProductApi.Infrastructure;
+using ProductApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +18,40 @@ builder.AddServiceDefaults();
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
+
+//ef
+builder.Services.AddDbContextPool<ProductDbContext>(dbContextOptionsBuilder =>
+{
+	dbContextOptionsBuilder.UseNpgsql(
+		builder.Configuration.GetConnectionString("postgres"), builder =>
+		{
+			builder.UseVector();
+		})
+		.UseSnakeCaseNamingConvention();
+});
+
+builder.Services.AddMigration<ProductDbContext, ProductDbContextSeeder>();
+
+//ai
+if (builder.Configuration["AI:Ollama:Endpoint"] is string ollamaEndpoint && !string.IsNullOrWhiteSpace(ollamaEndpoint))
+{
+	builder.Services.AddEmbeddingGenerator<string, Embedding<float>>(b => b
+		.UseOpenTelemetry()
+		.UseLogging()
+		.Use(new OllamaEmbeddingGenerator(
+			new Uri(ollamaEndpoint),
+			builder.Configuration["AI:Ollama:EmbeddingModel"])));
+}
+//else if (!string.IsNullOrWhiteSpace(builder.Configuration.GetConnectionString("openai")))
+//{
+//	builder.AddOpenAIClientFromConfiguration("openai");
+//	builder.Services.AddEmbeddingGenerator<string, Embedding<float>>(b => b
+//		.UseOpenTelemetry()
+//		.UseLogging()
+//		.Use(b.Services.GetRequiredService<OpenAIClient>().AsEmbeddingGenerator(builder.Configuration["AI:OpenAI:EmbeddingModel"]!)));
+//}
+
+builder.Services.AddScoped<IProductItemAI, ProductItemAI>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddMediatR(cfg => {
@@ -48,6 +91,15 @@ var versionedGroup = app
 	.MapGroup("api/v{version:apiVersion}")
 	.WithApiVersionSet(apiVersionSet);
 
+var apiVersionSetV2 = app.NewApiVersionSet()
+	.HasApiVersion(new ApiVersion(2))
+	.ReportApiVersions()
+	.Build();
+
+var versionedGroupV2 = app
+	.MapGroup("api/v2")
+	.WithApiVersionSet(apiVersionSetV2);
+
 app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
@@ -59,6 +111,7 @@ app.UseRouting();
 
 app.MapDefaultEndpoints();
 app.MapEndpoints(versionedGroup);
+app.MapEndpoints(versionedGroupV2);
 
 app.Run();
 

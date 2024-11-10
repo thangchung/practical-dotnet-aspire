@@ -13,7 +13,7 @@ public enum ItemType
     CAKEPOP,
     CROISSANT,
     MUFFIN,
-    CROISSANT_CHOCOLATE
+    CROISSANT_CHOCOLATE,
 }
 
 public class Item(decimal price, ItemType type)

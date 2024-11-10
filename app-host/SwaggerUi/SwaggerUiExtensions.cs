@@ -1,7 +1,5 @@
 ﻿using System.Collections.Immutable;
 
-using Aspire.Hosting;
-using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.Lifecycle;
 
 using Microsoft.AspNetCore.Builder;

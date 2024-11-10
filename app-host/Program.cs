@@ -3,6 +3,8 @@ using CoffeeShop.AppHost;
 var builder = DistributedApplication.CreateBuilder(args);
 
 var postgresQL = builder.AddPostgres("postgresQL")
+						.WithImage("ankane/pgvector")
+						.WithImageTag("latest")
 						.WithLifetime(ContainerLifetime.Persistent)
 						.WithHealthCheck()
 						.WithPgAdmin();
@@ -20,12 +22,12 @@ var rabbitmq = builder.AddRabbitMQ("rabbitmq")
 						.WithManagementPlugin();
 
 var productApi = builder.AddProject<Projects.CoffeeShop_ProductApi>("product-api")
+						.WithReference(postgres).WaitFor(postgres)
 						.WithSwaggerUI();
 
 var counterApi = builder.AddProject<Projects.CoffeeShop_CounterApi>("counter-api")
 						.WithReference(productApi)
-						.WithReference(rabbitmq)
-						.WaitFor(rabbitmq)
+						.WithReference(rabbitmq).WaitFor(rabbitmq)
 						.WithSwaggerUI();
 
 builder.AddProject<Projects.CoffeeShop_BaristaApi>("barista-api")
