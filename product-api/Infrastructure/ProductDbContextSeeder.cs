@@ -1,6 +1,5 @@
 ﻿
 using CoffeeShop.Shared.EF;
-using CoffeeShop.Shared.Helpers;
 
 using Microsoft.EntityFrameworkCore;
 

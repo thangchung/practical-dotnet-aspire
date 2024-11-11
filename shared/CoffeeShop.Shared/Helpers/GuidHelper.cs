@@ -5,7 +5,7 @@ public static class GuidHelper
 {
 	public static Guid NewGuid()
 	{
-		return NewId.NextGuid();
+		return Guid.CreateVersion7();
 	}
 
 	public static bool BeAGuid(string guid)

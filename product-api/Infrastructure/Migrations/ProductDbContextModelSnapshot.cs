@@ -31,6 +31,10 @@ namespace ProductApi.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
                     b.Property<Vector>("Embedding")
                         .IsRequired()
                         .HasColumnType("vector")

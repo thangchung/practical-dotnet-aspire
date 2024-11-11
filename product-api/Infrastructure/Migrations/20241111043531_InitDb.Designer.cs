@@ -13,7 +13,7 @@ using ProductApi.Infrastructure;
 namespace ProductApi.Infrastructure.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20241108125311_InitDb")]
+    [Migration("20241111043531_InitDb")]
     partial class InitDb
     {
         /// <inheritdoc />
@@ -33,6 +33,10 @@ namespace ProductApi.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
 
                     b.Property<Vector>("Embedding")
                         .IsRequired()

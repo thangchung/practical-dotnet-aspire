@@ -71,6 +71,9 @@ public class ProductItemAI(
 		return null;
 	}
 
-	//private static string CatalogItemToString(ItemV2 item) => $"{item.Type} {item.Price}";
-	private static string CatalogItemToString(ItemV2 item) => $"{item.Type}";
+	private string CatalogItemToString(ItemV2 item)
+	{
+		_logger.LogDebug("{item.Type} {item.Description}", item.Type, item.Description);
+		return $"{item.Type} {item.Description}";
+	}
 }

@@ -26,6 +26,7 @@ namespace ProductApi.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     price = table.Column<decimal>(type: "numeric", nullable: false),
                     type = table.Column<int>(type: "integer", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: true),
                     embedding = table.Column<Vector>(type: "vector", nullable: false),
                     updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },

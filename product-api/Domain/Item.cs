@@ -14,6 +14,8 @@ public enum ItemType
     CROISSANT,
     MUFFIN,
     CROISSANT_CHOCOLATE,
+	// Others
+	CHICKEN_MEATBALLS,
 }
 
 public class Item(decimal price, ItemType type)

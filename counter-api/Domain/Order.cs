@@ -1,4 +1,5 @@
 using CoffeeShop.Shared.Domain;
+using CoffeeShop.Shared.Helpers;
 
 using CounterApi.Domain.Commands;
 using CounterApi.Domain.DomainEvents;
@@ -155,7 +156,7 @@ public class ItemLine(Guid id, ItemType itemType, string name, decimal price, It
 	public bool IsBaristaOrder { get; set; } = isBarista;
 
 	public ItemLine(ItemType itemType, string name, decimal price, ItemStatus itemStatus, bool isBarista)
-		: this(Guid.NewGuid(), itemType, name, price, itemStatus, isBarista)
+		: this(GuidHelper.NewGuid(), itemType, name, price, itemStatus, isBarista)
 	{
 	}
 }
