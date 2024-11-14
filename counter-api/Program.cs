@@ -23,9 +23,10 @@ builder.Services.AddMediatR(cfg => {
 });
 builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
 
-builder.Services.AddSwaggerGen();
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddCors();
 
+builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApiVersioning(options =>
 {
 	options.DefaultApiVersion = new ApiVersion(1);
@@ -45,21 +46,21 @@ builder.Services.AddScoped<IItemGateway, ItemHttpGateway>();
 
 builder.Services.AddMassTransit(x =>
 {
-    x.AddConsumer<BaristaOrderUpdatedConsumer>(typeof(BaristaOrderUpdatedConsumerDefinition));
-    x.AddConsumer<KitchenOrderUpdatedConsumer>(typeof(KitchenOrderUpdatedConsumerDefinition));
+	x.AddConsumer<BaristaOrderUpdatedConsumer>(typeof(BaristaOrderUpdatedConsumerDefinition));
+	x.AddConsumer<KitchenOrderUpdatedConsumer>(typeof(KitchenOrderUpdatedConsumerDefinition));
 
-    x.SetKebabCaseEndpointNameFormatter();
+	x.SetKebabCaseEndpointNameFormatter();
 
-    x.UsingRabbitMq((context, cfg) =>
-    {
-        cfg.Host(builder.Configuration.GetConnectionString("rabbitmq")!);
+	x.UsingRabbitMq((context, cfg) =>
+	{
+		cfg.Host(builder.Configuration.GetConnectionString("rabbitmq")!);
 
 		cfg.UseSendFilter(typeof(OtelSendFilter<>), context);
 		cfg.UsePublishFilter(typeof(OtelPublishFilter<>), context);
 		cfg.UseConsumeFilter(typeof(OTelConsumeFilter<>), context);
 
 		cfg.ConfigureEndpoints(context);
-    });
+	});
 });
 
 var app = builder.Build();
@@ -77,8 +78,10 @@ app.UseExceptionHandler();
 
 if(app.Environment.IsDevelopment())
 {
-	app.UseSwagger();
+	app.MapOpenApi();
 }
+
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseRouting();
 

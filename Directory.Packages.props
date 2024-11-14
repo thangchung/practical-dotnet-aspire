@@ -2,28 +2,28 @@
 	<PropertyGroup>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 		<CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
-		<AspnetVersion>8.0.10</AspnetVersion>
-		<EfVersion>8.0.10</EfVersion>
-		<AspireVersion>9.0.0-rc.1.24511.1</AspireVersion>
+		<AspnetVersion>9.0.0</AspnetVersion>
+		<EfVersion>9.0.0-rc.2.24474.1</EfVersion>
+		<AspireVersion>9.0.0</AspireVersion>
 		<OpenTelemetryVersion>1.9.0</OpenTelemetryVersion>
 		<HealthCheckVersion>8.0.2</HealthCheckVersion>
 		<AspVersioningVersion>8.1.0</AspVersioningVersion>
 		<MassTransitVersion>8.3.0</MassTransitVersion>
 		<MartenVersion>7.10.1</MartenVersion>
+		<AIExtensions>9.0.0-preview.9.24556.5</AIExtensions>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageVersion Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
 		<PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(AspnetVersion)" />
 		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspnetVersion)" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
-		<PackageVersion Include="Microsoft.OpenApi" Version="1.6.10" />
+		<PackageVersion Include="Microsoft.Extensions.ApiDescription.Server" Version="$(AspnetVersion)" />
+		<PackageVersion Include="Microsoft.OpenApi" Version="1.6.17" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageVersion Include="MediatR" Version="12.4.1" />
 		<PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageVersion Include="FluentValidation" Version="11.10.0" />
-		<PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageVersion Include="Riok.Mapperly" Version="3.5.1" ExcludeAssets="runtime" PrivateAssets="all" />
 		<PackageVersion Include="MassTransit" Version="$(MassTransitVersion)" />
 		<PackageVersion Include="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
@@ -45,9 +45,10 @@
 		<PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="$(AspireVersion)" />
 		<PackageVersion Include="Aspire.Hosting.Redis" Version="$(AspireVersion)" />
 		<PackageVersion Include="Aspire.Hosting.Testing" Version="$(AspireVersion)" />
-		<PackageVersion Include="WireMock.Net.Aspire" Version="1.6.7" />
+		<PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0-rc.2.24551.3" />
+		<PackageVersion Include="WireMock.Net.Aspire" Version="1.6.7" /> 
 		<!-- Aspire Custom Extensions -->
-		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="8.10.0" />
+		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="$(AspireVersion)" />
 		<PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="$(AspireVersion)" />
 		<PackageVersion Include="Microsoft.Extensions.ServiceDiscovery.Abstractions" Version="$(AspireVersion)" />
 		<PackageVersion Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="$(AspireVersion)" />
@@ -75,19 +76,21 @@
 		<PackageVersion Include="ReportGenerator" Version="5.3.6" />
 	</ItemGroup>
 	<ItemGroup Label="EF">
+		<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(EfVersion)" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfVersion)" PrivateAssets="all" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfVersion)" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(EfVersion)" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EfVersion)" />
 		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="$(EfVersion)" />
-		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(EfVersion)" />
+		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0-rc.2" />
 		<PackageVersion Include="EFCore.NamingConventions" Version="8.0.3" />
 		<PackageVersion Include="Pgvector" Version="0.3.0" />
 		<PackageVersion Include="Pgvector.EntityFrameworkCore" Version="0.2.1" />
 	</ItemGroup>
 	<ItemGroup Label="AI">
-		<PackageVersion Include="Microsoft.Extensions.AI" Version="9.0.0-preview.9.24507.7" />
-		<PackageVersion Include="Microsoft.Extensions.AI.Abstractions" Version="9.0.0-preview.9.24507.7" />
-		<PackageVersion Include="Microsoft.Extensions.AI.Ollama" Version="9.0.0-preview.9.24507.7" />
+		<PackageVersion Include="Microsoft.Extensions.AI" Version="$(AIExtensions)" />
+		<PackageVersion Include="Microsoft.Extensions.AI.Abstractions" Version="$(AIExtensions)" />
+		<PackageVersion Include="Microsoft.Extensions.AI.Ollama" Version="$(AIExtensions)" />
+		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="9.0.0-beta.66" />
 	</ItemGroup>
 </Project>

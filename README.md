@@ -140,3 +140,7 @@ On Windows 11 - WSL2 Ubuntu 22 integrated, we can use `Podman Desktop` to replac
 dotnet publish "/workspaces/coffeeshop-aspire/app-host/../product-api/CoffeeShop.ProductApi.csproj" -p:PublishProfile="DefaultContainer" -p:PublishSingleFile="true" 
 -p:PublishTrimmed="false" --self-contained "true" --verbosity "quiet" --nologo -r "linux-x64" -p:ContainerRegistry="k3d-myregistry.localhost:12345" -p:ContainerRepository="product-api" -p:ContainerImageTag="latest"
 ```
+
+## References
+- https://learn.microsoft.com/en-gb/aspnet/core/fundamentals/openapi/overview?view=aspnetcore-9.0
+- 

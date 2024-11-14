@@ -21,7 +21,9 @@ builder.Services.AddMediatR(cfg => {
 });
 builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
+
+builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddApiVersioning(options =>
@@ -93,13 +95,14 @@ app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
-	app.UseSwagger();
+	app.MapOpenApi();
 }
+
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseRouting();
 
 app.MapDefaultEndpoints();
-
 app.MapEndpoints(versionedGroup);
 
 app.Run();

@@ -29,18 +29,19 @@ builder.Services.AddDbContextPool<ProductDbContext>(dbContextOptionsBuilder =>
 		})
 		.UseSnakeCaseNamingConvention();
 });
+builder.EnrichNpgsqlDbContext<ProductDbContext>();
 
 builder.Services.AddMigration<ProductDbContext, ProductDbContextSeeder>();
 
 //ai
-if (builder.Configuration["AI:Ollama:Endpoint"] is string ollamaEndpoint && !string.IsNullOrWhiteSpace(ollamaEndpoint))
+if (builder.Configuration.GetConnectionString("ollama") is string ollamaEndpoint && !string.IsNullOrWhiteSpace(ollamaEndpoint))
 {
 	builder.Services.AddEmbeddingGenerator<string, Embedding<float>>(b => b
 		.UseOpenTelemetry()
 		.UseLogging()
 		.Use(new OllamaEmbeddingGenerator(
-			new Uri(ollamaEndpoint),
-			builder.Configuration["AI:Ollama:EmbeddingModel"])));
+			new Uri(ollamaEndpoint.Split("=").Last()),
+			"all-minilm")));
 }
 //else if (!string.IsNullOrWhiteSpace(builder.Configuration.GetConnectionString("openai")))
 //{
@@ -61,7 +62,9 @@ builder.Services.AddMediatR(cfg => {
 });
 builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
+
+builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddApiVersioning(options =>
@@ -72,13 +75,14 @@ builder.Services.AddApiVersioning(options =>
 {
 	options.GroupNameFormat = "'v'V";
 	options.SubstituteApiVersionInUrl = true;
-});
+}).EnableApiVersionBinding();
 
 builder.Services.AddEndpoints(typeof(Program).Assembly);
 
 builder.Services.AddSingleton<IActivityScope, ActivityScope>();
 builder.Services.AddSingleton<CommandHandlerMetrics>();
 builder.Services.AddSingleton<QueryHandlerMetrics>();
+builder.AddChatCompletionService("ollama");
 
 var app = builder.Build();
 
@@ -104,8 +108,10 @@ app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
-	app.UseSwagger();
+	app.MapOpenApi();
 }
+
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseRouting();
 

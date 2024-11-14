@@ -57,7 +57,7 @@ public class ProductItemAI(
 		{
 			long timestamp = Stopwatch.GetTimestamp();
 
-			var embedding = (await embeddingGenerator.GenerateAsync(text))[0].Vector;
+			var embedding = (await embeddingGenerator.GenerateEmbeddingAsync(text)).Vector;
 			embedding = embedding[0..EmbeddingDimensions];
 
 			if (_logger.IsEnabled(LogLevel.Trace))

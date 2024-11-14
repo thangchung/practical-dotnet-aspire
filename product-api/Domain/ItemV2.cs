@@ -30,6 +30,12 @@ public class ItemV2 : EntityRootBase
 
 	[JsonIgnore]
 	public Vector? Embedding { get; set; }
+
+	public ItemV2 SetDescription(string? description)
+	{
+		Description = description;
+		return this;
+	}
 }
 
 public class ItemV2Data : List<ItemV2>

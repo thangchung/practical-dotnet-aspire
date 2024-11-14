@@ -2,6 +2,7 @@
 using CoffeeShop.Shared.EF;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.AI;
 
 using Npgsql;
 
@@ -15,6 +16,7 @@ namespace ProductApi.Infrastructure;
 public class ProductDbContextSeeder(
 	IWebHostEnvironment env,
 	IProductItemAI catalogAI,
+	IChatClient chatClient,
 	ILogger<ProductDbContextSeeder> logger
 	) : IDbSeeder<ProductDbContext>
 {
@@ -34,9 +36,14 @@ public class ProductDbContextSeeder(
 			{
 				logger.LogInformation("Generating {NumItems} embeddings", catalogItems.Count);
 				IReadOnlyList<Vector> embeddings = await catalogAI.GetEmbeddingsAsync(catalogItems);
+				
 				for (int i = 0; i < catalogItems.Count; i++)
 				{
-					catalogItems[i].Embedding = embeddings[i];
+					var prompt = $"Generate the description of {catalogItems[i].Type} in max 20 words";
+					var response = await chatClient.CompleteAsync(prompt);
+					catalogItems[i].SetDescription(response.Message?.Text);
+					// catalogItems[i].Embedding = embeddings[i];
+					catalogItems[i].Embedding = await catalogAI.GetEmbeddingAsync(catalogItems[i]);
 				}
 			}
 
