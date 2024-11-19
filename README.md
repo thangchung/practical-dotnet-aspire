@@ -106,6 +106,10 @@ If you run on `Windows 11`:
 # http://localhost:5019
 ```
 
+## CoffeeShop App Infused with AI - Intelligent Apps Development
+
+The detail blog of how to implement it at https://dev.to/thangchung/coffeeshop-app-infused-with-ai-intelligent-apps-development-202k
+
 ## Generate manifest file (powershell)
 
 ```sh

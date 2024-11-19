@@ -46,7 +46,8 @@
 		<PackageVersion Include="Aspire.Hosting.Redis" Version="$(AspireVersion)" />
 		<PackageVersion Include="Aspire.Hosting.Testing" Version="$(AspireVersion)" />
 		<PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0-rc.2.24551.3" />
-		<PackageVersion Include="WireMock.Net.Aspire" Version="1.6.7" /> 
+		<PackageVersion Include="Aspire.Azure.AI.OpenAI" Version="9.0.0-preview.5.24551.3" />
+		<PackageVersion Include="WireMock.Net.Aspire" Version="1.6.7" />
 		<!-- Aspire Custom Extensions -->
 		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="$(AspireVersion)" />
 		<PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="$(AspireVersion)" />
@@ -91,6 +92,8 @@
 		<PackageVersion Include="Microsoft.Extensions.AI" Version="$(AIExtensions)" />
 		<PackageVersion Include="Microsoft.Extensions.AI.Abstractions" Version="$(AIExtensions)" />
 		<PackageVersion Include="Microsoft.Extensions.AI.Ollama" Version="$(AIExtensions)" />
+		<PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="$(AIExtensions)" />
 		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="9.0.0-beta.66" />
+		<PackageVersion Include="Azure.AI.OpenAI" Version="2.1.0-beta.2" />
 	</ItemGroup>
 </Project>

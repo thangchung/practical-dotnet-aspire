@@ -1,6 +1,11 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ClientModel;
+using System.Data.Common;
+using System.Runtime.CompilerServices;
+using Azure.AI.OpenAI;
 
 using Microsoft.Extensions.AI;
+
+using OpenAI;
 
 namespace ProductApi.Services;
 
@@ -15,16 +20,17 @@ public static class ChatCompletionServiceExtensions
 			.UseFunctionInvocation()
 			.UseOpenTelemetry(configure: c => c.EnableSensitiveData = true);
 
-		builder.AddOllamaChatClient(serviceName, pipeline);
+		// builder.AddOllamaChatClient(serviceName, pipeline);
 
-		//if (builder.Configuration[$"{serviceName}:Type"] == "ollama")
-		//{
-		//	builder.AddOllamaChatClient(serviceName, pipeline);
-		//}
-		//else
-		//{
-		//	builder.AddOpenAIChatClient(serviceName, pipeline);
-		//}
+		if (builder.Configuration["ai:Type"] == "openai")
+		{
+			Console.WriteLine("xxxxxx openai");
+			builder.AddOpenAIChatClient(serviceName, pipeline);
+		}
+		else
+		{
+			builder.AddOllamaChatClient(serviceName, pipeline);
+		}
 	}
 
 	public static IServiceCollection AddOllamaChatClient(
@@ -76,6 +82,57 @@ public static class ChatCompletionServiceExtensions
 			var httpClient = pipeline.Services.GetService<HttpClient>() ?? new();
 			return pipeline.Use(new OllamaChatClient(uri, modelName, httpClient));
 		});
+	}
+
+	public static IServiceCollection AddOpenAIChatClient(
+		this IHostApplicationBuilder hostBuilder,
+		string serviceName,
+		Func<ChatClientBuilder, ChatClientBuilder>? builder = null,
+		string? modelOrDeploymentName = null)
+	{
+		// TODO: We would prefer to use Aspire.AI.OpenAI here, but it doesn't yet support the OpenAI v2 client.
+		// So for now we access the connection string and set up a client manually.
+
+		var connectionString = hostBuilder.Configuration.GetConnectionString(serviceName);
+		if (string.IsNullOrWhiteSpace(connectionString))
+		{
+			throw new InvalidOperationException($"No connection string named '{serviceName}' was found. Ensure a corresponding Aspire service was registered.");
+		}
+
+		var connectionStringBuilder = new DbConnectionStringBuilder
+		{
+			ConnectionString = connectionString
+		};
+		var endpoint = (string?)connectionStringBuilder["endpoint"];
+		var apiKey = (string)connectionStringBuilder["key"] ?? throw new InvalidOperationException($"The connection string named '{serviceName}' does not specify a value for 'Key', but this is required.");
+
+		modelOrDeploymentName ??= hostBuilder.Configuration["ai:CHATMODEL"]!;
+		if (string.IsNullOrWhiteSpace(modelOrDeploymentName))
+		{
+			throw new InvalidOperationException($"The connection string named '{serviceName}' does not specify a value for 'Deployment' or 'Model', and no value was passed for {nameof(modelOrDeploymentName)}.");
+		}
+
+		var endpointUri = string.IsNullOrEmpty(endpoint) ? null : new Uri(endpoint);
+		return hostBuilder.Services.AddOpenAIChatClient(apiKey, modelOrDeploymentName, endpointUri, builder);
+	}
+
+	public static IServiceCollection AddOpenAIChatClient(
+		this IServiceCollection services,
+		string apiKey,
+		string modelOrDeploymentName,
+		Uri? endpoint = null,
+		Func<ChatClientBuilder, ChatClientBuilder>? builder = null)
+	{
+		return services
+			.AddSingleton(_ => endpoint is null
+				? new OpenAIClient(apiKey)
+				: new AzureOpenAIClient(endpoint, new ApiKeyCredential(apiKey)))
+			.AddChatClient(pipeline =>
+			{
+				builder?.Invoke(pipeline);
+				var openAiClient = pipeline.Services.GetRequiredService<OpenAIClient>();
+				return pipeline.Use(openAiClient.AsChatClient(modelOrDeploymentName));
+			});
 	}
 }
 

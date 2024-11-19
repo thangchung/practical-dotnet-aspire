@@ -8,7 +8,6 @@ using ProductApi.Domain;
 
 namespace ProductApi.Services;
 
-/// <param name="environment">The web host environment.</param>
 public class ProductItemAI(
 	IWebHostEnvironment environment, 
 	ILogger<ProductItemAI> logger, 
@@ -17,19 +16,15 @@ public class ProductItemAI(
 {
 	private const int EmbeddingDimensions = 384;
 
-	/// <summary>Logger for use in AI operations.</summary>
 	private readonly ILogger _logger = logger;
 
-	/// <inheritdoc/>
 	public bool IsEnabled => embeddingGenerator is not null;
 
-	/// <inheritdoc/>
 	public ValueTask<Vector> GetEmbeddingAsync(ItemV2 item) =>
 		IsEnabled ?
 			GetEmbeddingAsync(CatalogItemToString(item)) :
 			ValueTask.FromResult<Vector>(null);
 
-	/// <inheritdoc/>
 	public async ValueTask<IReadOnlyList<Vector>> GetEmbeddingsAsync(IEnumerable<ItemV2> items)
 	{
 		if (IsEnabled)
@@ -50,7 +45,6 @@ public class ProductItemAI(
 		return null;
 	}
 
-	/// <inheritdoc/>
 	public async ValueTask<Vector> GetEmbeddingAsync(string text)
 	{
 		if (IsEnabled)

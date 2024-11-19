@@ -6,8 +6,6 @@ using Microsoft.Extensions.AI;
 
 using Npgsql;
 
-using Pgvector;
-
 using ProductApi.Domain;
 using ProductApi.Services;
 
@@ -20,38 +18,46 @@ public class ProductDbContextSeeder(
 	ILogger<ProductDbContextSeeder> logger
 	) : IDbSeeder<ProductDbContext>
 {
+	private readonly SemaphoreSlim semaphore = new(1);
+
 	public async Task SeedAsync(ProductDbContext context)
 	{
-		// Workaround from https://github.com/npgsql/efcore.pg/issues/292#issuecomment-388608426
-		context.Database.OpenConnection();
-		((NpgsqlConnection)context.Database.GetDbConnection()).ReloadTypes();
+		await semaphore.WaitAsync();
 
-		if (!context.Items.Any())
+		try
 		{
-			await context.Items.ExecuteDeleteAsync();
+			// Workaround from https://github.com/npgsql/efcore.pg/issues/292#issuecomment-388608426
+			context.Database.OpenConnection();
+			((NpgsqlConnection)context.Database.GetDbConnection()).ReloadTypes();
 
-			var catalogItems = new ItemV2Data();
-
-			if (catalogAI.IsEnabled)
+			if (!context.Items.Any())
 			{
-				logger.LogInformation("Generating {NumItems} embeddings", catalogItems.Count);
-				IReadOnlyList<Vector> embeddings = await catalogAI.GetEmbeddingsAsync(catalogItems);
-				
-				for (int i = 0; i < catalogItems.Count; i++)
+				await context.Items.ExecuteDeleteAsync();
+
+				var catalogItems = new ItemV2Data();
+
+				if (catalogAI.IsEnabled)
 				{
-					var prompt = $"Generate the description of {catalogItems[i].Type} in max 20 words";
-					var response = await chatClient.CompleteAsync(prompt);
-					catalogItems[i].SetDescription(response.Message?.Text);
-					// catalogItems[i].Embedding = embeddings[i];
-					catalogItems[i].Embedding = await catalogAI.GetEmbeddingAsync(catalogItems[i]);
+					logger.LogInformation("Generating {NumItems} embeddings", catalogItems.Count);
+					for (int i = 0; i < catalogItems.Count; i++)
+					{
+						var prompt = $"Generate the description of {catalogItems[i].Type} in max 20 words";
+						var response = await chatClient.CompleteAsync(prompt);
+						catalogItems[i].SetDescription(response.Message?.Text);
+						catalogItems[i].Embedding = await catalogAI.GetEmbeddingAsync(catalogItems[i]);
+					}
 				}
+
+				await context.Items.AddRangeAsync(catalogItems);
+				logger.LogInformation("Seeded catalog with {NumItems} items", context.Items.Count());
+				await context.SaveChangesAsync();
 			}
 
-			await context.Items.AddRangeAsync(catalogItems);
-			logger.LogInformation("Seeded catalog with {NumItems} items", context.Items.Count());
 			await context.SaveChangesAsync();
 		}
-
-		await context.SaveChangesAsync();
+		finally
+		{
+			semaphore.Release();
+		}
 	}
 }

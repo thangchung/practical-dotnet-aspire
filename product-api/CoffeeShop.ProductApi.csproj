@@ -8,17 +8,8 @@
 		<ContainerImageTag>latest</ContainerImageTag>
 	</PropertyGroup>
 
-	<!--<PropertyGroup>
-		<OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
-		<OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)</OpenApiDocumentsDirectory>
-	</PropertyGroup>-->
-
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-		<!--<PackageReference Include="Microsoft.Extensions.ApiDescription.Server">
-			<IncludeAssets>runtime;</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>-->
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" />
 		<PackageReference Include="Asp.Versioning.Http" />
 		<PackageReference Include="MediatR" />
@@ -37,8 +28,11 @@
 	<ItemGroup Label="AI">
 		<PackageReference Include="Microsoft.Extensions.AI" />
 		<PackageReference Include="Microsoft.Extensions.AI.Ollama" />
+		<PackageReference Include="Microsoft.Extensions.AI.OpenAI" />
 		<PackageReference Include="Pgvector" />
 		<PackageReference Include="Pgvector.EntityFrameworkCore" />
+		<PackageReference Include="Azure.AI.OpenAI" />
+		<PackageReference Include="Aspire.Azure.AI.OpenAI" />
 	</ItemGroup>
 
 	<ItemGroup>

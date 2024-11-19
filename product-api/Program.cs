@@ -8,6 +8,8 @@ using CoffeeShop.Shared.OpenTelemetry;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.AI;
 
+using OpenAI;
+
 using ProductApi.Infrastructure;
 using ProductApi.Services;
 
@@ -34,23 +36,23 @@ builder.EnrichNpgsqlDbContext<ProductDbContext>();
 builder.Services.AddMigration<ProductDbContext, ProductDbContextSeeder>();
 
 //ai
-if (builder.Configuration.GetConnectionString("ollama") is string ollamaEndpoint && !string.IsNullOrWhiteSpace(ollamaEndpoint))
+if (builder.Configuration.GetValue<string>("ai:Type") is string type && type is "ollama")
 {
 	builder.Services.AddEmbeddingGenerator<string, Embedding<float>>(b => b
 		.UseOpenTelemetry()
 		.UseLogging()
 		.Use(new OllamaEmbeddingGenerator(
-			new Uri(ollamaEndpoint.Split("=").Last()),
+			new Uri(builder.Configuration["AI:OLLAMA:Endpoint"]!),
 			"all-minilm")));
 }
-//else if (!string.IsNullOrWhiteSpace(builder.Configuration.GetConnectionString("openai")))
-//{
-//	builder.AddOpenAIClientFromConfiguration("openai");
-//	builder.Services.AddEmbeddingGenerator<string, Embedding<float>>(b => b
-//		.UseOpenTelemetry()
-//		.UseLogging()
-//		.Use(b.Services.GetRequiredService<OpenAIClient>().AsEmbeddingGenerator(builder.Configuration["AI:OpenAI:EmbeddingModel"]!)));
-//}
+else
+{
+	builder.AddAzureOpenAIClient("openai");
+	builder.Services.AddEmbeddingGenerator<string, Embedding<float>>(b => b
+		.UseOpenTelemetry()
+		.UseLogging()
+		.Use(b.Services.GetRequiredService<OpenAIClient>().AsEmbeddingGenerator(builder.Configuration.GetValue<string>("ai:EMBEDDINGMODEL")!)));
+}
 
 builder.Services.AddScoped<IProductItemAI, ProductItemAI>();
 
@@ -82,7 +84,7 @@ builder.Services.AddEndpoints(typeof(Program).Assembly);
 builder.Services.AddSingleton<IActivityScope, ActivityScope>();
 builder.Services.AddSingleton<CommandHandlerMetrics>();
 builder.Services.AddSingleton<QueryHandlerMetrics>();
-builder.AddChatCompletionService("ollama");
+builder.AddChatCompletionService("openai");
 
 var app = builder.Build();
 
