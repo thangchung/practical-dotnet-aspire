@@ -4,9 +4,21 @@ The coffeeshop apps on .NET Aspire
 
 ![Counter API-Code Coverage](https://img.shields.io/badge/Code%20Coverage-73%25-yellow?style=flat)
 
+## Get starting
+
+In `Visual Studio` with the project opening, press `F5`!!!
+
+or 
+
+```sh
+> dotnet build coffeeshop-aspire.sln
+> dotnet run --project app-host/app-host.csproj
+# http://localhost:5019
+```
+
 ## Introduction
 
-> Notice: This is just a demo of how can we build and deploy the microservices approach. In the reality, the boundary should be defined by bounded-context concepts of Domaim-driven Design, and totally based on the business domain, and might not be so fine-grained services like this demo, so you use it with care.
+> Notice: This is just a demo of how can we build and deploy the microservices approach. In the reality, the boundary should be defined by bounded-context concepts of Domain-driven Design, and totally based on the business domain, and might not be so fine-grained services like this demo, so you use it with care.
 
 - [x] Built on .NET 9.0 STS
 - [x] .NET Aspire 9
@@ -91,13 +103,6 @@ C4Container
 	Rel_Back(barista_api, message_broker, "Subscribes", "TCP")
 	Rel_Back(kitchen_api, message_broker, "Subscribes", "TCP")
 	Rel_Back(order_summary, message_broker, "Subscribes", "TCP")
-```
-## Get starting
-
-```sh
-> dotnet build coffeeshop-aspire.sln
-> dotnet run --project app-host/app-host.csproj
-# http://localhost:5019
 ```
 
 ## CoffeeShop App Infused with AI - Intelligent Apps Development
