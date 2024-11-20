@@ -17,10 +17,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 8.0.x
-
-    - name: Install .NET Aspire workload
-      run: dotnet workload install aspire
+        dotnet-version: 9.0.x
 
     - name: Restore dependencies
       run: dotnet restore

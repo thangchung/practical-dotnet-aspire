@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
+	<Sdk Name="Aspire.AppHost.Sdk" Version="$(AspireVersion)" />
 
+	<PropertyGroup>
 		<IsPublishable>false</IsPublishable>
 		<IsPackable>false</IsPackable>
 		<IsAspireHost>true</IsAspireHost>
@@ -27,6 +25,7 @@
 		<PackageReference Include="Aspire.Hosting.PostgreSQL" />
 		<PackageReference Include="Aspire.Hosting.Redis" />
 		<PackageReference Include="Aspire.Hosting.RabbitMQ" />
+		<PackageReference Include="Aspire.Hosting.Testing" />
 	</ItemGroup>
 
 	<ItemGroup>

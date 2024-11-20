@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 using CoffeeShop.Shared.Endpoint;
 
 using ProductApi.Domain;

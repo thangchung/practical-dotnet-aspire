@@ -31,7 +31,11 @@ GET https://{{hostname}}/c/api/v1/fulfillment-orders
 content-type: application/json
 
 ###
-GET http://{{hostname}}/p/api/v1/item-types
+GET https://{{hostname}}/p/api/v2/item-types?q=cafe
+content-type: application/json
+
+###
+GET https://{{hostname}}/p/api/v1/item-types
 content-type: application/json
 
 ###

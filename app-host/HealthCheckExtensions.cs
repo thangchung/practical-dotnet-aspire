@@ -1,9 +1,9 @@
-﻿using Aspirant.Hosting;
-
-using HealthChecks.NpgSql;
+﻿using HealthChecks.NpgSql;
 using HealthChecks.RabbitMQ;
 using HealthChecks.Redis;
 using HealthChecks.Uris;
+
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace CoffeeShop.AppHost;
 
@@ -61,5 +61,28 @@ public static class Extensions
 			var client = new HttpClient();
 			return new UriHealthCheck(options, () => client);
 		}));
+	}
+}
+
+public class HealthCheckAnnotation(Func<IResource, CancellationToken, Task<IHealthCheck?>> healthCheckFactory) : IResourceAnnotation
+{
+	public Func<IResource, CancellationToken, Task<IHealthCheck?>> HealthCheckFactory { get; } = healthCheckFactory;
+
+	public static HealthCheckAnnotation Create(Func<string, IHealthCheck> connectionStringFactory)
+	{
+		return new(async (resource, token) =>
+		{
+			if (resource is not IResourceWithConnectionString c)
+			{
+				return null;
+			}
+
+			if (await c.GetConnectionStringAsync(token) is not string cs)
+			{
+				return null;
+			}
+
+			return connectionStringFactory(cs);
+		});
 	}
 }

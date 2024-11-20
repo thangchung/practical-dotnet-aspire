@@ -1,7 +1,5 @@
 ﻿using System.Collections.Immutable;
 
-using Aspire.Hosting;
-using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.Lifecycle;
 
 using Microsoft.AspNetCore.Builder;
@@ -24,7 +22,7 @@ public static class SwaggerUIExtensions
 	/// <param name="path">The path to the open api document.</param>
 	/// <param name="endpointName">The endpoint name</param>
 	public static IResourceBuilder<ProjectResource> WithSwaggerUI(this IResourceBuilder<ProjectResource> builder,
-		string[]? documentNames = null, string path = "swagger/v1/swagger.json", string endpointName = "http")
+		string[]? documentNames = null, string path = "openapi/v1.json", string endpointName = "http")
 	{
 		if (!builder.ApplicationBuilder.Resources.OfType<SwaggerUIResource>().Any())
 		{
@@ -40,7 +38,7 @@ public static class SwaggerUIExtensions
 				.ExcludeFromManifest();
 		}
 
-		return builder.WithAnnotation(new SwaggerUIAnnotation(documentNames ?? ["v1"], path, builder.GetEndpoint(endpointName)));
+		return builder.WithAnnotation(new SwaggerUIAnnotation(documentNames ?? ["v1", "v2"], path, builder.GetEndpoint(endpointName)));
 	}
 
 	class SwaggerUiHook(ResourceNotificationService notificationService,
