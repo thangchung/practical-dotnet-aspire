@@ -1,6 +1,4 @@
-﻿
-using Microsoft.Extensions.AI;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 using Pgvector;
 

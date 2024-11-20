@@ -1,62 +1,46 @@
 ﻿using System.ClientModel;
 using System.Data.Common;
 using System.Runtime.CompilerServices;
-using Azure.AI.OpenAI;
-
-using Microsoft.Extensions.AI;
-
-using OpenAI;
 
 namespace ProductApi.Services;
 
-/// <summary>
-/// Ref: https://github.dev/dotnet/eShopSupport
-/// </summary>
 public static class ChatCompletionServiceExtensions
 {
-	public static void AddChatCompletionService(this IHostApplicationBuilder builder, string serviceName)
+	public static void AddChatCompletionService(this IHostApplicationBuilder builder)
 	{
 		var pipeline = (ChatClientBuilder pipeline) => pipeline
 			.UseFunctionInvocation()
 			.UseOpenTelemetry(configure: c => c.EnableSensitiveData = true);
 
-		// builder.AddOllamaChatClient(serviceName, pipeline);
-
-		if (builder.Configuration["ai:Type"] == "openai")
+		if (builder.Configuration["AI:Type"] == "openai")
 		{
-			Console.WriteLine("xxxxxx openai");
-			builder.AddOpenAIChatClient(serviceName, pipeline);
+			builder.AddOpenAIChatClient(builder: pipeline);
 		}
 		else
 		{
-			builder.AddOllamaChatClient(serviceName, pipeline);
+			builder.AddOllamaChatClient(pipeline);
 		}
 	}
 
 	public static IServiceCollection AddOllamaChatClient(
 		this IHostApplicationBuilder hostBuilder,
-		string serviceName,
 		Func<ChatClientBuilder, ChatClientBuilder>? builder = null,
 		string? modelName = null)
 	{
 		if (modelName is null)
 		{
-			// var configKey = $"{serviceName}:LlmModelName";
-			// var configKey = "llama3.2:1b";
-			// modelName = hostBuilder.Configuration[configKey];
-			modelName = "llama3.2:1b";
+			modelName = hostBuilder.Configuration["AI:CHATMODEL"];
 			if (string.IsNullOrEmpty(modelName))
 			{
-				// throw new InvalidOperationException($"No {nameof(modelName)} was specified, and none could be found from configuration at '{configKey}'");
 				throw new InvalidOperationException($"No {nameof(modelName)} was specified.");
 			}
 		}
 
-		if (hostBuilder.Configuration.GetConnectionString("ollama") is string ollamaEndpoint && !string.IsNullOrWhiteSpace(ollamaEndpoint))
+		if (hostBuilder.Configuration.GetValue<string>("AI:Type") is string type && type is "ollama")
 		{
 			return hostBuilder.Services.AddOllamaChatClient(
 				modelName,
-				new Uri(ollamaEndpoint.Split("=").Last()),
+				new Uri(hostBuilder.Configuration["AI:OLLAMA:Endpoint"]!),
 				builder);
 		}
 		else
@@ -86,7 +70,7 @@ public static class ChatCompletionServiceExtensions
 
 	public static IServiceCollection AddOpenAIChatClient(
 		this IHostApplicationBuilder hostBuilder,
-		string serviceName,
+		string serviceName = "openai",
 		Func<ChatClientBuilder, ChatClientBuilder>? builder = null,
 		string? modelOrDeploymentName = null)
 	{

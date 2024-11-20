@@ -7,9 +7,7 @@ var postgresQL = builder.AddPostgres("postgresQL")
 						.WithImageTag("latest")
 						.WithLifetime(ContainerLifetime.Persistent)
 						.WithHealthCheck()
-						.WithPgWeb()
-						//.WithPgAdmin()
-						;
+						.WithPgWeb();
 var postgres = postgresQL.AddDatabase("postgres");
 
 var redis = builder.AddRedis("redis")
@@ -35,9 +33,9 @@ var llama32Model = ollama.AddModel("llama32", "llama3.2:1b");
 
 var productApi = builder.AddProject<Projects.CoffeeShop_ProductApi>("product-api")
 						.WithReference(postgres).WaitFor(postgres)
-						.WithEnvironment($"ai:Type", "ollama")
-						.WithEnvironment($"ai:EMBEDDINGMODEL", "all-minilm")
-						.WithEnvironment($"ai:CHATMODEL", "llama3.2:1b")
+						.WithEnvironment("AI:Type", "ollama")
+						.WithEnvironment("AI:EMBEDDINGMODEL", "all-minilm")
+						.WithEnvironment("AI:CHATMODEL", "llama3.2:1b")
 						.WithReference(ollama).WaitFor(allMinilmModel).WaitFor(llama32Model)
 						.WithSwaggerUI();
 
@@ -48,9 +46,9 @@ if (useOpenAI)
 	var openAI = builder.AddConnectionString("openai");
 	productApi
 			.WithReference(openAI)
-			.WithEnvironment("ai:Type", "openai")
-			.WithEnvironment("ai:EMBEDDINGMODEL", "text-embedding-3-small")
-			.WithEnvironment("ai:CHATMODEL", "gpt-4o-mini");
+			.WithEnvironment("AI:Type", "openai")
+			.WithEnvironment("AI:EMBEDDINGMODEL", "text-embedding-3-small")
+			.WithEnvironment("AI:CHATMODEL", "gpt-4o-mini");
 }
 
 var counterApi = builder.AddProject<Projects.CoffeeShop_CounterApi>("counter-api")

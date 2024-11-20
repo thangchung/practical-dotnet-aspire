@@ -1,9 +1,6 @@
 ﻿
 using CoffeeShop.Shared.EF;
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.AI;
-
 using Npgsql;
 
 using ProductApi.Domain;
@@ -12,17 +9,16 @@ using ProductApi.Services;
 namespace ProductApi.Infrastructure;
 
 public class ProductDbContextSeeder(
-	IWebHostEnvironment env,
 	IProductItemAI catalogAI,
 	IChatClient chatClient,
 	ILogger<ProductDbContextSeeder> logger
 	) : IDbSeeder<ProductDbContext>
 {
-	private readonly SemaphoreSlim semaphore = new(1);
+	private readonly SemaphoreSlim _semaphore = new(1);
 
 	public async Task SeedAsync(ProductDbContext context)
 	{
-		await semaphore.WaitAsync();
+		await _semaphore.WaitAsync();
 
 		try
 		{
@@ -57,7 +53,7 @@ public class ProductDbContextSeeder(
 		}
 		finally
 		{
-			semaphore.Release();
+			_semaphore.Release();
 		}
 	}
 }

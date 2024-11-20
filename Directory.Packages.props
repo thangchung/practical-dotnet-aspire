@@ -3,7 +3,7 @@
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 		<CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
 		<AspnetVersion>9.0.0</AspnetVersion>
-		<EfVersion>9.0.0-rc.2.24474.1</EfVersion>
+		<EfVersion>9.0.0</EfVersion>
 		<AspireVersion>9.0.0</AspireVersion>
 		<OpenTelemetryVersion>1.9.0</OpenTelemetryVersion>
 		<HealthCheckVersion>8.0.2</HealthCheckVersion>
@@ -83,7 +83,7 @@
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(EfVersion)" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EfVersion)" />
 		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="$(EfVersion)" />
-		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0-rc.2" />
+		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1" />
 		<PackageVersion Include="EFCore.NamingConventions" Version="8.0.3" />
 		<PackageVersion Include="Pgvector" Version="0.3.0" />
 		<PackageVersion Include="Pgvector.EntityFrameworkCore" Version="0.2.1" />

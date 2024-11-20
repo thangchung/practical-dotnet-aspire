@@ -5,11 +5,6 @@ using CoffeeShop.Shared.Endpoint;
 using CoffeeShop.Shared.Exceptions;
 using CoffeeShop.Shared.OpenTelemetry;
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.AI;
-
-using OpenAI;
-
 using ProductApi.Infrastructure;
 using ProductApi.Services;
 
@@ -34,27 +29,6 @@ builder.Services.AddDbContextPool<ProductDbContext>(dbContextOptionsBuilder =>
 builder.EnrichNpgsqlDbContext<ProductDbContext>();
 
 builder.Services.AddMigration<ProductDbContext, ProductDbContextSeeder>();
-
-//ai
-if (builder.Configuration.GetValue<string>("ai:Type") is string type && type is "ollama")
-{
-	builder.Services.AddEmbeddingGenerator<string, Embedding<float>>(b => b
-		.UseOpenTelemetry()
-		.UseLogging()
-		.Use(new OllamaEmbeddingGenerator(
-			new Uri(builder.Configuration["AI:OLLAMA:Endpoint"]!),
-			"all-minilm")));
-}
-else
-{
-	builder.AddAzureOpenAIClient("openai");
-	builder.Services.AddEmbeddingGenerator<string, Embedding<float>>(b => b
-		.UseOpenTelemetry()
-		.UseLogging()
-		.Use(b.Services.GetRequiredService<OpenAIClient>().AsEmbeddingGenerator(builder.Configuration.GetValue<string>("ai:EMBEDDINGMODEL")!)));
-}
-
-builder.Services.AddScoped<IProductItemAI, ProductItemAI>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddMediatR(cfg => {
@@ -84,7 +58,10 @@ builder.Services.AddEndpoints(typeof(Program).Assembly);
 builder.Services.AddSingleton<IActivityScope, ActivityScope>();
 builder.Services.AddSingleton<CommandHandlerMetrics>();
 builder.Services.AddSingleton<QueryHandlerMetrics>();
-builder.AddChatCompletionService("openai");
+
+builder.AddEmbeddingGenerator();
+builder.AddChatCompletionService();
+builder.Services.AddScoped<IProductItemAI, ProductItemAI>();
 
 var app = builder.Build();
 

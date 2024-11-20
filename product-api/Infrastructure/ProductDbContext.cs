@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using ProductApi.Domain;
+﻿using ProductApi.Domain;
 
 namespace ProductApi.Infrastructure;
 
