@@ -38,9 +38,21 @@ public static class ChatCompletionServiceExtensions
 
 		if (hostBuilder.Configuration.GetValue<string>("AI:Type") is string type && type is "ollama")
 		{
+			var connectionString = hostBuilder.Configuration.GetConnectionString(type);
+			if (string.IsNullOrWhiteSpace(connectionString))
+			{
+				throw new InvalidOperationException($"No connection string named '{type}' was found. Ensure a corresponding Aspire service was registered.");
+			}
+
+			var connectionStringBuilder = new DbConnectionStringBuilder
+			{
+				ConnectionString = connectionString
+			};
+			var endpoint = (string?)connectionStringBuilder["endpoint"];
+
 			return hostBuilder.Services.AddOllamaChatClient(
 				modelName,
-				new Uri(hostBuilder.Configuration["AI:OLLAMA:Endpoint"]!),
+				new Uri(endpoint!),
 				builder);
 		}
 		else

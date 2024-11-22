@@ -1,4 +1,6 @@
-﻿namespace ProductApi.Services;
+﻿using System.Data.Common;
+
+namespace ProductApi.Services;
 
 public static class EmbeddingGeneratorExtensions
 {
@@ -6,11 +8,23 @@ public static class EmbeddingGeneratorExtensions
 	{
 		if (builder.Configuration.GetValue<string>("AI:Type") is string type && type is "ollama")
 		{
+			var connectionString = builder.Configuration.GetConnectionString(type);
+			if (string.IsNullOrWhiteSpace(connectionString))
+			{
+				throw new InvalidOperationException($"No connection string named '{type}' was found. Ensure a corresponding Aspire service was registered.");
+			}
+
+			var connectionStringBuilder = new DbConnectionStringBuilder
+			{
+				ConnectionString = connectionString
+			};
+			var endpoint = (string?)connectionStringBuilder["endpoint"];
+
 			builder.Services.AddEmbeddingGenerator<string, Embedding<float>>(b => b
 				.UseOpenTelemetry()
 				.UseLogging()
 				.Use(new OllamaEmbeddingGenerator(
-					new Uri(builder.Configuration["AI:OLLAMA:Endpoint"]!),
+					new Uri(endpoint!),
 					builder.Configuration.GetValue<string>("AI:EMBEDDINGMODEL"))));
 		}
 		else
