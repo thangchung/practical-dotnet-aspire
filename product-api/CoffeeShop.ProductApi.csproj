@@ -33,6 +33,7 @@
 		<PackageReference Include="Pgvector.EntityFrameworkCore" />
 		<PackageReference Include="Azure.AI.OpenAI" />
 		<PackageReference Include="Aspire.Azure.AI.OpenAI" />
+		<PackageReference Include="CommunityToolkit.Aspire.OllamaSharp" />
 	</ItemGroup>
 
 	<ItemGroup>

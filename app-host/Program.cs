@@ -22,21 +22,23 @@ var rabbitmq = builder.AddRabbitMQ("rabbitmq")
 						.WithManagementPlugin();
 
 var ollama = builder.AddOllama("ollama")
-				.WithImageTag("0.3.14")
+				.WithImageTag("0.5.7")
 				.WithLifetime(ContainerLifetime.Persistent)
 				.WithDataVolume()
-				//.WithOpenWebUI()
+				//.WithGPUSupport()
+				.WithOpenWebUI()
 				;
 
-var allMinilmModel = ollama.AddModel("all-minilm", "all-minilm");
-var llama32Model = ollama.AddModel("llama32", "llama3.2:1b");
+var allMinilmModel = ollama.AddModel("embedding", "all-minilm");
+// var llama32Model = ollama.AddModel("llama32", "llama3.2:1b");
+var deepseekModel = ollama.AddModel("chat", "deepseek-r1:1.5b");
 
 var productApi = builder.AddProject<Projects.CoffeeShop_ProductApi>("product-api")
 						.WithReference(postgres).WaitFor(postgres)
 						.WithEnvironment("AI:Type", "ollama")
 						.WithEnvironment("AI:EMBEDDINGMODEL", "all-minilm")
-						.WithEnvironment("AI:CHATMODEL", "llama3.2:1b")
-						.WithReference(ollama).WaitFor(allMinilmModel).WaitFor(llama32Model)
+						.WithEnvironment("AI:CHATMODEL", "deepseek-r1:1.5b")
+						.WithReference(ollama).WaitFor(allMinilmModel).WaitFor(deepseekModel)
 						.WithSwaggerUI();
 
 // set to true if you want to use OpenAI

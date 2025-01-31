@@ -10,7 +10,7 @@
 		<AspVersioningVersion>8.1.0</AspVersioningVersion>
 		<MassTransitVersion>8.3.0</MassTransitVersion>
 		<MartenVersion>7.10.1</MartenVersion>
-		<AIExtensions>9.0.0-preview.9.24556.5</AIExtensions>
+		<AIExtensions>9.1.0-preview.1.25064.3</AIExtensions>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageVersion Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
@@ -84,7 +84,7 @@
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EfVersion)" />
 		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="$(EfVersion)" />
 		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1" />
-		<PackageVersion Include="EFCore.NamingConventions" Version="8.0.3" />
+		<PackageVersion Include="EFCore.NamingConventions" Version="9.0.0" />
 		<PackageVersion Include="Pgvector" Version="0.3.0" />
 		<PackageVersion Include="Pgvector.EntityFrameworkCore" Version="0.2.1" />
 	</ItemGroup>
@@ -93,7 +93,8 @@
 		<PackageVersion Include="Microsoft.Extensions.AI.Abstractions" Version="$(AIExtensions)" />
 		<PackageVersion Include="Microsoft.Extensions.AI.Ollama" Version="$(AIExtensions)" />
 		<PackageVersion Include="Microsoft.Extensions.AI.OpenAI" Version="$(AIExtensions)" />
-		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="9.0.0-beta.66" />
-		<PackageVersion Include="Azure.AI.OpenAI" Version="2.1.0-beta.2" />
+		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="9.1.0" />
+		<PackageVersion Include="CommunityToolkit.Aspire.OllamaSharp" Version="9.1.0" />
+		<PackageVersion Include="Azure.AI.OpenAI" Version="2.1.0-beta.1" />
 	</ItemGroup>
 </Project>

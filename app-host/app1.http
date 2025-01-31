@@ -31,7 +31,7 @@ GET https://{{hostname}}/c/api/v1/fulfillment-orders
 content-type: application/json
 
 ###
-GET https://{{hostname}}/p/api/v2/item-types?q=cafe
+GET https://{{hostname}}/p/api/v2/item-types?q=cake
 content-type: application/json
 
 ###

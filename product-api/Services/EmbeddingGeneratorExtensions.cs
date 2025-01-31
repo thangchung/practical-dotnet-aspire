@@ -19,20 +19,21 @@ public static class EmbeddingGeneratorExtensions
 			};
 			var endpoint = (string?)connectionStringBuilder["endpoint"];
 
-			builder.Services.AddEmbeddingGenerator<string, Embedding<float>>(b => b
+			// builder.AddOllamaSharpEmbeddingGenerator("embedding");
+			builder.Services.AddEmbeddingGenerator(b => b.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>())
 				.UseOpenTelemetry()
 				.UseLogging()
-				.Use(new OllamaEmbeddingGenerator(
+				.Use((f) => new OllamaEmbeddingGenerator(
 					new Uri(endpoint!),
-					builder.Configuration.GetValue<string>("AI:EMBEDDINGMODEL"))));
+					builder.Configuration.GetValue<string>("AI:EMBEDDINGMODEL")));
 		}
 		else
 		{
 			builder.AddAzureOpenAIClient("openai");
-			builder.Services.AddEmbeddingGenerator<string, Embedding<float>>(b => b
+			builder.Services.AddEmbeddingGenerator(sp => sp.GetRequiredService<OpenAIClient>().AsEmbeddingGenerator(builder.Configuration["AI:EMBEDDINGMODEL"]!))
 				.UseOpenTelemetry()
 				.UseLogging()
-				.Use(b.Services.GetRequiredService<OpenAIClient>().AsEmbeddingGenerator(builder.Configuration.GetValue<string>("AI:EMBEDDINGMODEL")!)));
+				.Build();
 		}
 	}
 }
