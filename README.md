@@ -12,7 +12,7 @@ or
 
 ```sh
 > dotnet build coffeeshop-aspire.sln
-> dotnet run --project app-host/app-host.csproj
+> dotnet run --project app-host/CoffeeShop.AppHost.csproj
 # http://localhost:5019
 ```
 
